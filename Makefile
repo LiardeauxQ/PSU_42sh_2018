@@ -29,7 +29,7 @@ CFLAGS	=	-g -I inc/ -Wall -Wextra
 
 LDFLAGS	=	-L lib/my -lmy
 
-NAME	=	mysh
+NAME	=	42sh
 
 all:	$(NAME)
 
