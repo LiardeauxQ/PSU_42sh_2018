@@ -68,8 +68,8 @@ static void write_double_left_arrow(char *end_str, int *fds)
 			write(fds[1], buf, my_strlen(buf));
 			write(fds[1], "\n", 1);
 		}
+		free(buf);
 	}
-	free(buf);
 }
 
 int double_left_arrow(char ***env, char *cmd, char *end_str,

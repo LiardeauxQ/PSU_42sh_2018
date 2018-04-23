@@ -33,7 +33,7 @@ static int check_setenv_special_cases(char *env[], char **argv)
 
 	if (nb_arg == 1) {
 		display_env_var(env);
-		return (1);
+		return (0);
 	} else if (nb_arg > 3) {
 		my_puterror("setenv: Too many arguments.\n");
 		return (1);
@@ -49,20 +49,21 @@ static int check_setenv_special_cases(char *env[], char **argv)
 		my_puterror(" contain alphanumeric characters.\n");
 		return (1);
 	}
-	return (0);
+	return (2);
 }
 
 int set_environment_cmd(char ***env, char **argv, int size_cmd)
 {
 	int nb_var = count_2d_array(*env);
 	int already_var = 0;
+	int statu = 0;
 	char **stock = *env;
 
 	if (env == NULL || argv == NULL)
 		return (-1);
-	if (check_setenv_special_cases(stock, argv)) {
+	if ((statu = check_setenv_special_cases(stock, argv)) != 2) {
 		*env = stock;
-		return (1);
+		return (statu);
 	}
 	if ((already_var = find_env(stock, argv[1])) != -1) {
 		for (int i = 0 ; stock[already_var][i] != '\0' ; i++)

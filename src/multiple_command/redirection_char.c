@@ -7,28 +7,28 @@
 
 #include "minishell.h"
 
-int check_if_redirection(char **splite_cmd)
+int check_if_redirection(char **split_cmd)
 {
-	for (int i = 0 ; splite_cmd[i] != NULL ; i++) {
-		if (my_strcmp("<", splite_cmd[i]) == 1)
+	for (int i = 0 ; split_cmd[i] != NULL ; i++) {
+		if (my_strcmp("<", split_cmd[i]) == 1)
 			return (1);
-		if (my_strcmp(">", splite_cmd[i]) == 1)
+		if (my_strcmp(">", split_cmd[i]) == 1)
 			return (2);
-		if (my_strcmp("<<", splite_cmd[i]) == 1)
+		if (my_strcmp("<<", split_cmd[i]) == 1)
 			return (3);
-		if (my_strcmp(">>", splite_cmd[i]) == 1)
+		if (my_strcmp(">>", split_cmd[i]) == 1)
 			return (4);
 	}
 	return (0);
 }
 
-int check_redirections_char(char ***splite_cmd, int pos)
+int check_redirections_char(char ***split_cmd, int pos)
 {
 	int type = 0;
 
-	type = check_if_redirection(splite_cmd[pos]);
+	type = check_if_redirection(split_cmd[pos]);
 	if (type == 2 || type == 4)
-		return ((splite_cmd[pos + 1] != NULL)
+		return ((split_cmd[pos + 1] != NULL)
 		? OUTPUT_REDIR_ERROR : type);
 	else if (type == 1 || type == 3)
 		return ((pos != 0) ? INPUT_REDIR_ERROR : type);

@@ -14,9 +14,9 @@ char *find_env_var_value(char *env[], char *env_var)
 	int i = 0;
 	int k = 0;
 
-	if (env == NULL || env_var == NULL)
+	if (env == NULL || env_var == NULL || var_index == -1)
 		return (NULL);
-	while (env[var_index][i] != '=' && env[var_index][i] != '\0')
+	while (env[var_index][i] != '\0' && env[var_index][i] != '=')
 		i = i + 1;
 	var_value = malloc(my_strlen(env[var_index]) + 1);
 	check_malloc(var_value);
@@ -39,10 +39,12 @@ static int manage_cd_commande_option(char ***env, char *new_dir,
 		if (chdir(new_dir) == -1) {
 			my_puterror(new_dir);
 			my_puterror(": Not a directory.\n");
+			free(new_dir);
 			return (1);
 		}
 		*env = update_pwd_var(*env, current_dir);
 	}
+	free(new_dir);
 	return (0);
 }
 
@@ -53,13 +55,13 @@ int change_dir_cmd(char ***env, char **argv)
 
 	if (env == NULL || argv == NULL)
 		return (-1);
-	if (argv[1] != NULL && check_cd_error(argv))
-		return (0);
+	if (check_cd_error(argv[1], count_2d_array(argv)))
+		return (1);
 	if (getcwd(current_dir, sizeof(current_dir)) == NULL)
 		return (0);
 	if (argv[1] == NULL)
 		new_dir = find_env_var_value(*env, "HOME");
 	else
-		new_dir = argv[1];
+		new_dir = my_strdup(argv[1]);
 	return (manage_cd_commande_option(env, new_dir, current_dir));
 }

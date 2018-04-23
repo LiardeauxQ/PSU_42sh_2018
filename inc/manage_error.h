@@ -10,7 +10,7 @@
 
 int manage_cmd_not_found(char *cmd_name);
 int can_access_to_file(char *filename);
-int check_cd_error(char **argv);
+int check_cd_error(char *directory, int cmd_size);
 int print_redirection_error(int error);;
 
 #endif /* MANAGE_ERROR_H_ */

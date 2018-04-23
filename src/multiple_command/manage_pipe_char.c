@@ -7,20 +7,20 @@
 
 #include "minishell.h"
 
-static char ***remove_pipe(char **splite_cmd, int size)
+static char ***remove_pipe(char **split_cmd, int size)
 {
-	int cmd_nbr = count_2d_array(splite_cmd);
+	int cmd_nbr = count_2d_array(split_cmd);
 	char ***argv = create_3d_array(size + 1, cmd_nbr + 1);
 	int b = 0;
 	int c = 0;
 
-	if (argv == NULL || splite_cmd == NULL)
+	if (argv == NULL || split_cmd == NULL)
 		return (NULL);
 	for (int a = 0 ; a < cmd_nbr ; a = a) {
-		argv[b][c] = my_strdup(splite_cmd[a]);
+		argv[b][c] = my_strdup(split_cmd[a]);
 		a = a + 1;
 		c = c + 1;
-		if (my_strcmp("|", splite_cmd[a])) {
+		if (my_strcmp("|", split_cmd[a])) {
 			argv[b][c] = NULL;
 			a = a + 1;
 			b = b + 1;
@@ -70,11 +70,11 @@ int wait_all_process(char ***argv, int quit)
 	return ((save_quit != 0) ? (save_quit) : (quit));
 }
 
-int manage_pipe(char *cmd, char **splite_cmd, char ***env)
+int manage_pipe(char *cmd, char **split_cmd, char ***env)
 {
 	char **nw_cmd = remove_needless_char(my_str_to_wordtab(cmd, "|"));
 	fildes_pipe_t fd_pr = initialize_tmp_fildes_descriptor(nw_cmd);
-	char ***argv = remove_pipe(splite_cmd, fd_pr.size);
+	char ***argv = remove_pipe(split_cmd, fd_pr.size);
 	int quit = check_if_redir_error(argv);
 
 	if (argv == NULL || nw_cmd == NULL || env == NULL || quit < 0)

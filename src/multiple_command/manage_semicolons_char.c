@@ -7,12 +7,12 @@
 
 #include "minishell.h"
 
-int check_if_special_str(char **splite_cmd, char *c)
+int check_if_special_str(char **split_cmd, char *c)
 {
-	if (splite_cmd == NULL || c == NULL)
+	if (split_cmd == NULL || c == NULL)
 		return (-1);
-	for (int i = 0 ; splite_cmd[i] != NULL ; i++) {
-		if (my_strcmp(c, splite_cmd[i]) == 1)
+	for (int i = 0 ; split_cmd[i] != NULL ; i++) {
+		if (my_strcmp(c, split_cmd[i]) == 1)
 			return (i);
 	}
 	return (-1);
@@ -43,11 +43,11 @@ static char **stock_cmd(char *cmd, int size)
 	return (stock_tmp);
 }
 
-static char ***splite_cmd_if_semicolons(char *cmd)
+static char ***split_cmd_if_semicolons(char *cmd)
 {
 	int size = 1;
 	char **stock_tmp = NULL;
-	char ***splite_cmd = NULL;
+	char ***split_cmd = NULL;
 
 	if (cmd == NULL)
 		return (NULL);
@@ -55,13 +55,13 @@ static char ***splite_cmd_if_semicolons(char *cmd)
 		if (cmd[i] == ';')
 			size = size + 1;
 	stock_tmp = stock_cmd(cmd, size);
-	splite_cmd = malloc((size + 1) * sizeof(char *));
+	split_cmd = malloc((size + 1) * sizeof(char *));
 	check_malloc(stock_tmp);
 	for (int c = 0 ; c < size ; c++)
-		splite_cmd[c] = my_str_to_wordtab(stock_tmp[c], " \t");
-	splite_cmd[size] = NULL;
+		split_cmd[c] = my_str_to_wordtab(stock_tmp[c], " \t");
+	split_cmd[size] = NULL;
 	destroy_2darray(stock_tmp);
-	return (splite_cmd);
+	return (split_cmd);
 }
 
 char **remove_needless_char(char **cmd)
@@ -95,7 +95,7 @@ int manage_semicolons(char *cmd, char ***env)
 	int quit = 0;
 	int i = 0;
 
-	if ((argv = splite_cmd_if_semicolons(cmd)) == NULL
+	if ((argv = split_cmd_if_semicolons(cmd)) == NULL
 	|| (nw_cmd = remove_needless_char(my_str_to_wordtab(cmd, ";"))) == NULL)
 		return (-1);
 	while (argv[i] != NULL && nw_cmd[i] != NULL && quit >= 0) {

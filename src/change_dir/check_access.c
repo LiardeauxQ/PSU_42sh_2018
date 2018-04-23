@@ -7,41 +7,41 @@
 
 #include "minishell.h"
 
-static int check_access(char **splite_path, char *cmd_name)
+static int check_access(char **split_path, char *cmd_name)
 {
 	int status = 0;
 	int alrd_path = 0;
 
-	if (splite_path == NULL || cmd_name == NULL)
+	if (split_path == NULL || cmd_name == NULL)
 		return (-1);
-	for (int i = 0 ; splite_path[i] != NULL ; i++) {
-		splite_path[i] = add_cmd_to_path(cmd_name, splite_path[i],
+	for (int i = 0 ; split_path[i] != NULL ; i++) {
+		split_path[i] = add_cmd_to_path(cmd_name, split_path[i],
 			&alrd_path);
-		if (splite_path[i] == NULL) {
+		if (split_path[i] == NULL) {
 			status = -2;
 			break;
 		}
-		status = access(splite_path[i], F_OK);
+		status = access(split_path[i], F_OK);
 		if (status != -1)
 			break;
 	}
 	if (alrd_path != 1)
-		destroy_2darray(splite_path);
+		destroy_2darray(split_path);
 	return (status);
 }
 
 int check_if_is_cmd(char *env[], char *cmd_name)
 {
-	char **splite_path = NULL;
-	int path_index = find_env(env, "PATH");
+	char **split_path = NULL;
 	int status = 0;
 
 	if (env == NULL || cmd_name == NULL)
 		return (0);
-	if (path_index == -1)
+	split_path = split_path_variable(find_env_var_value(env, "PATH"),
+	":");
+	if (split_path == NULL)
 		return (manage_cmd_not_found(cmd_name));
-	splite_path = splite_path_variable(env[path_index]);
-	status = check_access(splite_path, cmd_name);
+	status = check_access(split_path, cmd_name);
 	if (status == -1)
 		manage_cmd_not_found(cmd_name);
 	return ((status >= 0) ? 1 : -1);

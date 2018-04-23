@@ -14,14 +14,12 @@ static int manage_builtin_cmd(char ***env, char **argv, int size)
 	if (my_strcmp(argv[0], "env")) {
 		display_env_var(*env);
 		return (0);
-	} else if (my_strcmp(argv[0], "setenv")) {
+	} else if (my_strcmp(argv[0], "setenv"))
 		return (set_environment_cmd(env, argv, size));
-	}
-	if (my_strcmp(argv[0], "unsetenv")) {
+	if (my_strcmp(argv[0], "unsetenv"))
 		return (unset_env_commande(env, argv));
-	} else if (my_strcmp(argv[0], "cd")) {
+	else if (my_strcmp(argv[0], "cd"))
 		return (change_dir_cmd(env, argv));
-	}
 	return (-1);
 }
 
@@ -80,8 +78,7 @@ int check_one_command(char *cmd, char **argv, char ***env)
 		return (-1);
 	if (size == 0)
 		return (0);
-	if ((status = manage_builtin_cmd(env, argv, size)) == -1) {
+	if ((status = manage_builtin_cmd(env, argv, size)) == -1)
 		status = execute_command(argv, env);
-	}
 	return (status);
 }

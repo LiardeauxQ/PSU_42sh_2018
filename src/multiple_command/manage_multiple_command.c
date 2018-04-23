@@ -22,20 +22,19 @@ int check_empty_line(char *cmd)
 	return (size);
 }
 
-int check_if_redir_error(char ***splite_cmd)
+int check_if_redir_error(char ***split_cmd)
 {
 	int pos = 0;
 	int quit = 0;
 
-	if (splite_cmd == NULL)
+	if (split_cmd == NULL)
 		return (-1);
-	while (splite_cmd[pos] != NULL) {
-		quit = check_redirections_char(splite_cmd, pos);
-		if (quit == INPUT_REDIR_ERROR) {
+	while (split_cmd[pos] != NULL) {
+		quit = check_redirections_char(split_cmd, pos);
+		if (quit == INPUT_REDIR_ERROR)
 			return (quit);
-		} else if (quit == OUTPUT_REDIR_ERROR) {
+		else if (quit == OUTPUT_REDIR_ERROR)
 			return (quit);
-		}
 		pos = pos + 1;
 	}
 	return (quit);
@@ -43,7 +42,7 @@ int check_if_redir_error(char ***splite_cmd)
 
 int manage_multiple_commande(char **cmd, char ***env)
 {
-	char **splite_cmd = NULL;
+	char **split_cmd = NULL;
 	int error = 0;
 	int type = 0;
 
@@ -51,17 +50,17 @@ int manage_multiple_commande(char **cmd, char ***env)
 		return (0);
 	if (check_empty_line(*cmd) == 0)
 		return (0);
-	splite_cmd = my_str_to_wordtab(*cmd, " \t");
-	if (check_if_special_str(splite_cmd, ";") != -1
-	|| check_if_special_str(splite_cmd, "|") != -1) {
+	split_cmd = my_str_to_wordtab(*cmd, " \t");
+	if (check_if_special_str(split_cmd, ";") != -1
+	|| check_if_special_str(split_cmd, "|") != -1) {
 		error = manage_semicolons(*cmd, env);
 		if (error < -1)
 			return (print_redirection_error(error));
 		else
 			return (error);
-	} else if ((type = check_if_redirection(splite_cmd)) != 0) {
+	} else if ((type = check_if_redirection(split_cmd)) != 0)
 		return (manage_redirection(*cmd, env, type, NULL));
-	} else
-		return (check_one_command(*cmd, splite_cmd, env));
+	else
+		return (check_one_command(*cmd, split_cmd, env));
 	return (0);
 }
