@@ -7,7 +7,7 @@
 
 #include "my.h"
 
-static int check_same_caractere(char str, char *c)
+int check_same_caractere(char str, char *c)
 {
 	for (int i = 0 ; c[i] != '\0' ; i++) {
 		if (c[i] == str)
@@ -23,7 +23,7 @@ static int check_multiple_caractere(char *str, char *c, int i)
 	return (i);
 }
 
-static int count_tab_size(char *str, char *c)
+int count_char_rec(char *str, char *c)
 {
 	int size = 1;
 
@@ -37,7 +37,7 @@ static int count_tab_size(char *str, char *c)
 
 static char **initialize_double_array(char *str, char *c)
 {
-	int size = count_tab_size(str, c);
+	int size = count_char_rec(str, c);
 	char **array = malloc(sizeof(char *) * (size + 1));
 
 	check_malloc(array);

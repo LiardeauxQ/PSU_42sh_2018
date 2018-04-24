@@ -35,10 +35,14 @@ void destroy_2darray(char **array);
 void destroy_3darray(char ***array);
 char *my_strcat(char *dest, char const *src);
 char *get_next_line(int fd);
+int count_char_rec(char *str, char *c);
 char **my_str_to_wordtab(char *str, char *c);
 int count_2d_array(char **array);
 void destroy_2darray(char **array);
 int count_words(char str[]);
 void check_malloc(void *array);
+char *remove_useless_char(char *str, char *c);
+int check_if_str_in_str(char *str1, char *str2);
+char **my_str_to_wordtab_str(char *str1, char *str2);
 
 #endif /* MY_H_ */

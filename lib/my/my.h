@@ -36,5 +36,6 @@ void destroy_2darray(char **array);
 char *my_strcat(char *dest, char const *src);
 char *get_next_line(int fd);
 void check_malloc(void *array);
+int check_same_caractere(char str, char *c);
 
 #endif /* MY_H_ */

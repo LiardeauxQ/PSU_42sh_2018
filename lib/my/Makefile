@@ -19,7 +19,8 @@ SRCLIB	=	my_putchar.c	\
 		manage_3d_array.c	\
 		get_next_line.c	\
 		my_str_to_wordtab.c	\
-		remove_special_char.c	\
+		my_str_to_wordtab_str.c	\
+		remove_needless_char.c	\
 		my_strtoi.c
 
 OBJLIB	=	$(SRCLIB:.c=.o)

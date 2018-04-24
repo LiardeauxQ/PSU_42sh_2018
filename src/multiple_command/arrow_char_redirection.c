@@ -7,10 +7,9 @@
 
 #include "minishell.h"
 
-int simple_left_arrow(char ***env, char *cmd, char *filename,
+int simple_left_arrow(char ***env, cmd_t *cmd, char *filename,
 	fildes_pipe_t *fd_pr)
 {
-	char **argv = my_str_to_wordtab(cmd, " \t");
 	int fd = 0;
 
 	if (env == NULL || cmd == NULL || filename == NULL)
@@ -23,16 +22,15 @@ int simple_left_arrow(char ***env, char *cmd, char *filename,
 	}
 	if (dup2(fd, 0) == 1)
 		return (-1);
-	check_one_command(cmd, argv, env);
+	cmd->argv = remove_redir_char(cmd->argv);
+	check_one_command(cmd, env);
 	close(fd);
-	destroy_2darray(argv);
 	return (0);
 }
 
-int simple_right_arrow(char ***env, char *cmd, char *filename,
+int simple_right_arrow(char ***env, cmd_t *cmd, char *filename,
 	fildes_pipe_t *fd_pr)
 {
-	char **argv = my_str_to_wordtab(cmd, " \t");
 	mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 	int fd = 0;
 
@@ -46,9 +44,9 @@ int simple_right_arrow(char ***env, char *cmd, char *filename,
 	}
 	if (dup2(fd, 1) == -1)
 		return (-1);
-	check_one_command(cmd, argv, env);
+	cmd->argv = remove_redir_char(cmd->argv);
+	check_one_command(cmd, env);
 	close(fd);
-	destroy_2darray(argv);
 	return (0);
 }
 
@@ -72,10 +70,9 @@ static void write_double_left_arrow(char *end_str, int *fds)
 	}
 }
 
-int double_left_arrow(char ***env, char *cmd, char *end_str,
+int double_left_arrow(char ***env, cmd_t *cmd, char *end_str,
 	fildes_pipe_t *fd_pr)
 {
-	char **argv = my_str_to_wordtab(cmd, " \t");
 	int fds[2] = {0, 0};
 
 	if (env == NULL || cmd == NULL || end_str == NULL)
@@ -87,16 +84,15 @@ int double_left_arrow(char ***env, char *cmd, char *end_str,
 	if (dup2(fds[0], 0) == -1)
 		return (-1);
 	close(fds[1]);
-	check_one_command(cmd, argv, env);
+	cmd->argv = remove_redir_char(cmd->argv);
+	check_one_command(cmd, env);
 	close(fds[0]);
-	destroy_2darray(argv);
 	return (0);
 }
 
-int double_right_arrow(char ***env, char *cmd, char *filename,
+int double_right_arrow(char ***env, cmd_t *cmd, char *filename,
 	fildes_pipe_t *fd_pr)
 {
-	char **argv = my_str_to_wordtab(cmd, " \t");
 	int fd = 0;
 
 	if (env == NULL || cmd == NULL || filename == NULL)
@@ -109,8 +105,8 @@ int double_right_arrow(char ***env, char *cmd, char *filename,
 	}
 	if (dup2(fd, 1) == -1)
 		return (-1);
-	check_one_command(cmd, argv, env);
+	cmd->argv = remove_redir_char(cmd->argv);
+	check_one_command(cmd, env);
 	close(fd);
-	destroy_2darray(argv);
 	return (0);
 }

@@ -22,38 +22,37 @@ int check_if_redirection(char **split_cmd)
 	return (0);
 }
 
-int check_redirections_char(char ***split_cmd, int pos)
+int check_redirections_char(cmd_t *cmd, int pos)
 {
 	int type = 0;
 
-	type = check_if_redirection(split_cmd[pos]);
+	type = check_if_redirection(cmd[pos].argv);
 	if (type == 2 || type == 4)
-		return ((split_cmd[pos + 1] != NULL)
+		return ((cmd[pos + 1].separator != -1)
 		? OUTPUT_REDIR_ERROR : type);
 	else if (type == 1 || type == 3)
 		return ((pos != 0) ? INPUT_REDIR_ERROR : type);
 	return (0);
 }
 
-char *recup_cmd_without_redir(char *cmd)
+char **remove_redir_char(char **argv)
 {
-	int i = my_strlen(cmd);
-
-	while (i > 0 && cmd[i] != '>' && cmd[i] != '<') {
-		cmd[i] = '\0';
-		i = i - 1;
+	for (int i = 0 ; argv[i] != NULL ; i++) {
+		if (my_strcmp(argv[i], ">"))
+			argv[i] = NULL;
+		if (my_strcmp(argv[i], "<"))
+			argv[i] = NULL;
+		if (my_strcmp(argv[i], ">>"))
+			argv[i] = NULL;
+		if (my_strcmp(argv[i], "<<"))
+			argv[i] = NULL;
 	}
-	while (i > 0 && (cmd[i] == '>' || cmd[i] == '<' ||
-	cmd[i] == ' ' || cmd[i] == '\t')) {
-		cmd[i] = '\0';
-		i = i - 1;
-	}
-	return (cmd);
+	return (argv);
 }
 
 redir redir_init(void)
 {
-	int (*(*redirection))(char ***, char *, char *, fildes_pipe_t *);
+	int (*(*redirection))(char ***, cmd_t *, char *, fildes_pipe_t *);
 
 	redirection = malloc(4 * sizeof(redirection));
 	check_malloc(redirection);
@@ -64,27 +63,24 @@ redir redir_init(void)
 	return (redirection);
 }
 
-int manage_redirection(char *cmd, char ***env, int type, fildes_pipe_t *fd_pr)
+int manage_redirection(cmd_t *cmd, char ***env, int type, fildes_pipe_t *fd_pr)
 {
-	char **argv = my_str_to_wordtab(cmd, " \t");
-	int size = count_2d_array(argv);
-	int (**redir)(char ***, char *, char *, fildes_pipe_t *) = redir_init();
+	int size = count_2d_array(cmd->argv);
+	int (**redir)(char ***, cmd_t *, char *, fildes_pipe_t *) = redir_init();
 	int quit = 0;
 	int wstatus = 0;
 	int pid = 0;
 
-	if (cmd == NULL || argv == NULL || env == NULL)
+	if (cmd == NULL || env == NULL)
 		return (0);
-	cmd = recup_cmd_without_redir(cmd);
 	if ((pid = fork()) == 0) {
 		if (type != 0)
-			quit = redir[type - 1](env, cmd, argv[size - 1], fd_pr);
-		destroy_2darray(argv);
+			quit = redir[type - 1](env, cmd, cmd->argv[size - 1],
+				fd_pr);
 		exit(quit);
 	} else if (pid > 0) {
 		close_files(fd_pr);
 		waitpid(pid, &wstatus, 0);
 	}
-	destroy_2darray(argv);
 	return (quit);
 }

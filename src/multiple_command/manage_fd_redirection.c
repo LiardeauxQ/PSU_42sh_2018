@@ -43,14 +43,15 @@ void close_files(fildes_pipe_t *fd_pr)
 			close(fd_pr->fildes[k]);
 }
 
-fildes_pipe_t initialize_tmp_fildes_descriptor(char **new_cmd)
+fildes_pipe_t initialize_tmp_fildes_descriptor(cmd_t *cmd)
 {
 	fildes_pipe_t fd_pr = {NULL, NULL, 0};
 	int j = 0;
 
-	if (new_cmd == NULL)
+	if (cmd == NULL)
 		return (fd_pr);
-	fd_pr.size = count_2d_array(new_cmd);
+	for (int i = 0 ; cmd[i].separator != -1 ; i++)
+		fd_pr.size += 1;
 	fd_pr.fildes = malloc((fd_pr.size * 2 + 1) * sizeof(int));
 	check_malloc(fd_pr.fildes);
 	fd_pr.action_rw = malloc((fd_pr.size * 2 + 1) * sizeof(int));

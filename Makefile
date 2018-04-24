@@ -12,12 +12,12 @@ SRC	=	src/manage_env/set_env_commande.c	\
 		src/change_dir/check_access.c	\
 		src/change_dir/change_dir_cmd.c	\
 		src/change_dir/manage_pwd_var.c	\
-		src/multiple_command/manage_semicolons_char.c	\
 		src/multiple_command/manage_fd_redirection.c	\
 		src/multiple_command/manage_pipe_char.c	\
 		src/multiple_command/manage_multiple_command.c	\
 		src/multiple_command/arrow_char_redirection.c	\
 		src/multiple_command/redirection_char.c	\
+		src/parse_cmd_string/create_cmd_struct.c	\
 		src/manage_exe_commande.c	\
 		src/manage_error.c	\
 		src/check_commande.c	\

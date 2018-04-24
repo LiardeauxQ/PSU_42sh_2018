@@ -25,7 +25,7 @@ int print_redirection_error(int error)
 		my_puterror("Ambiguous output redirect.\n");
 		return (1);
 	}
-	return (0);
+	return (error);
 }
 
 int check_cd_error(char *directory, int cmd_size)

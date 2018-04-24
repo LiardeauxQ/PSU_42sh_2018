@@ -12,12 +12,13 @@
 #include "manage_environment.h"
 #include "change_directorie_cmd.h"
 #include "manage_error.h"
+#include "parse_cmd_string.h"
 #include "manage_multiple_command.h"
 #include "my.h"
 
 /* check_commande.c */
 
 int check_exe_signal(int wstatus);
-int check_one_command(char *cmd, char **argv, char ***env);
+int check_one_command(cmd_t *cmd, char ***env);
 
 #endif /* MINISHELL_H_ */

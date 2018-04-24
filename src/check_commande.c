@@ -69,16 +69,16 @@ static int execute_command(char **argv, char ***env)
 	return (status);
 }
 
-int check_one_command(char *cmd, char **argv, char ***env)
+int check_one_command(cmd_t *cmd, char ***env)
 {
-	int size = my_strlen(cmd);
+	int size = my_strlen(cmd->cmd);
 	int status = 0;
 
-	if (cmd == NULL || argv == NULL || env == NULL)
+	if (cmd->cmd == NULL || cmd->argv == NULL || env == NULL)
 		return (-1);
 	if (size == 0)
 		return (0);
-	if ((status = manage_builtin_cmd(env, argv, size)) == -1)
-		status = execute_command(argv, env);
+	if ((status = manage_builtin_cmd(env, cmd->argv, size)) == -1)
+		status = execute_command(cmd->argv, env);
 	return (status);
 }
