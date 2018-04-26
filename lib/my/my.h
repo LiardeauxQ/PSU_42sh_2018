@@ -37,5 +37,8 @@ char *my_strcat(char *dest, char const *src);
 char *get_next_line(int fd);
 void check_malloc(void *array);
 int check_same_caractere(char str, char *c);
+int check_same_str(char *str1, char *str2);
+char **initialize_db_array(char *str1, char *str2, int size);
+int count_char_rec(char *str, char *c);
 
 #endif /* MY_H_ */

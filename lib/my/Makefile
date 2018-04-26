@@ -18,8 +18,9 @@ SRCLIB	=	my_putchar.c	\
 		manage_2darray.c	\
 		manage_3d_array.c	\
 		get_next_line.c	\
-		my_str_to_wordtab.c	\
-		my_str_to_wordtab_str.c	\
+		my_str_to_wordtab/my_str_to_wordtab.c	\
+		my_str_to_wordtab/my_str_to_wordtab_str.c	\
+		my_str_to_wordtab/my_str_to_wordtab_no_supr.c	\
 		remove_needless_char.c	\
 		my_strtoi.c
 

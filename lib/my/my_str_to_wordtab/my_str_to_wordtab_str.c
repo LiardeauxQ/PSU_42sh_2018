@@ -2,10 +2,10 @@
 ** EPITECH PROJECT, 2017
 ** lib
 ** File description:
-** my_strtotab.c
+** my_str_to_wordtab_str.c
 */
 
-#include "my.h"
+#include "../my.h"
 
 int check_if_str_in_str(char *str1, char *str2)
 {
@@ -47,7 +47,7 @@ int count_str_rec(char *str1, char *str2)
 	return (size);
 }
 
-static int check_same_str(char *str1, char *str2)
+int check_same_str(char *str1, char *str2)
 {
 	int i = 0;
 	int j = 0;
@@ -60,11 +60,16 @@ static int check_same_str(char *str1, char *str2)
 	return (1);
 }
 
-static char **initialize_double_array(char *str1, char *str2)
+char **initialize_db_array(char *str1, char *str2, int size)
 {
-	int size = count_str_rec(str1, str2);
-	char **array = malloc(sizeof(char *) * (size + 1));
+	char **array = NULL;
 
+	if (str1 == NULL || str2 == NULL)
+		return (NULL);
+	if (my_strlen(str1) == 0 || my_strlen(str2) == 0)
+		return (NULL);
+	size += count_str_rec(str1, str2);
+	array = malloc(sizeof(char *) * (size + 1));
 	check_malloc(array);
 	for (int i = 0 ; i < size ; i++) {
 		array[i] = malloc(my_strlen(str1) + 1);
@@ -75,13 +80,12 @@ static char **initialize_double_array(char *str1, char *str2)
 
 char **my_str_to_wordtab_str(char *str1, char *str2)
 {
-	char **tab_str = NULL;
+	char **tab_str = initialize_db_array(str1, str2, 0);
 	int j = 0;
 	int k = 0;
 
-	if (str1 == NULL || str2 == NULL || my_strlen(str1) == 0)
+	if (tab_str == NULL)
 		return (NULL);
-	tab_str = initialize_double_array(str1, str2);
 	while (str1[j] != '\0' && check_same_str(str1 + j, str2) == 1)
 		j = j + 1;
 	for (int a = 0 ; j < my_strlen(str1) ; a = a) {

@@ -9,6 +9,8 @@
 #define MINISHELL_H_
 
 #include <fcntl.h>
+#include <sys/ioctl.h>
+#include <termios.h>
 #include "manage_environment.h"
 #include "change_directorie_cmd.h"
 #include "manage_error.h"

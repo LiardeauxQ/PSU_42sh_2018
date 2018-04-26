@@ -13,7 +13,22 @@ void add_cmd_child(char *cmd, struct cmd_s *child, struct cmd_s *parent)
 {
 	child->separator = 0;
 	child->cmd = my_strdup(cmd);
-	child->argv = my_str_to_wordtab(cmd, " \t");
+	child->argv = NULL;
+	if (check_if_str_in_str(cmd, ">") != -1)
+		child->argv = my_str_to_wordtab_no_supr(cmd, ">");
+	if (check_if_str_in_str(cmd, "<") != -1)
+		child->argv = my_str_to_wordtab_no_supr(cmd, "<");
+	if (check_if_str_in_str(cmd, ">>") != -1)
+		child->argv = my_str_to_wordtab_no_supr(cmd, ">>");
+	if (check_if_str_in_str(cmd, "<<") != -1)
+		child->argv = my_str_to_wordtab_no_supr(cmd, "<<");
+	if (child->argv == NULL)
+		child->argv = my_str_to_wordtab(cmd, " \t");
+	else {
+		for (int j = 0 ; child->argv[j] != NULL ; j++)
+			child->argv[j] = remove_useless_char(child->argv[j],
+				" \t");
+	}
 	child->redirection = check_if_redirection(child->argv);
 	child->childs = NULL;
 	child->parent = parent;
@@ -28,7 +43,7 @@ int split_separator_cmd(cmd_t *cmd, char *str_cmd, char *str_sep, int sep)
 	if (split_cmd == NULL)
 		return (-1);
 	for (int j = 0 ; split_cmd[j] != NULL ; j++)
-		split_cmd[i] = remove_useless_char(split_cmd[i], " \t");
+		split_cmd[j] = remove_useless_char(split_cmd[j], " \t");
 	cmd->childs = malloc((size + 1) * sizeof(cmd_t));
 	cmd->cmd = my_strdup(str_cmd);
 	cmd->argv = NULL;
@@ -46,27 +61,27 @@ int split_separator_cmd(cmd_t *cmd, char *str_cmd, char *str_sep, int sep)
 
 int find_separator(char *str_cmd, struct cmd_s *cmd)
 {
-	int separator = 0;
+	int sep = 0;
 	int statu = 0;
 
-	if (check_if_str_in_str(str_cmd, "&&") != -1 && separator == 0) {
-		separator = AND_SEP;
+	if (check_if_str_in_str(str_cmd, "&&") != -1 && sep == 0) {
+		sep = AND_SEP;
 		statu = split_separator_cmd(cmd, str_cmd, "&&", AND_SEP);
 	}
-	if (check_if_str_in_str(str_cmd, "|") != -1 && separator == 0) {
-		if (check_if_str_in_str(str_cmd, "||") != -1 && separator == 0) {
-			separator = OR_SEP;
+	if (check_if_str_in_str(str_cmd, "|") != -1 && sep == 0) {
+		if (check_if_str_in_str(str_cmd, "||") != -1 && sep == 0) {
+			sep = OR_SEP;
 			statu = split_separator_cmd(cmd, str_cmd, "||",
 			OR_SEP);
 		} else {
-			separator = PIPE_SEP;
+			sep = PIPE_SEP;
 			statu = split_separator_cmd(cmd, str_cmd, "|",
 			PIPE_SEP);
 		}
 	}
 	if (statu == -1)
 		return (-1);
-	return (separator);
+	return (sep);
 }
 
 cmd_t *create_cmd_struct(char *str_cmd)
@@ -94,7 +109,13 @@ void display_cmd(cmd_t *cmd)
 		return;
 	printf("cmd\n");
 	for (int i = 0 ; cmd[i].separator != -1 ; i++) {
-		printf("%d . cmd : %s separator %d\n", i, cmd[i].cmd, cmd[i].separator);
+		printf("%d . cmd : %s separator %d\n", i, cmd[i].cmd,
+		cmd[i].separator);
+		if (cmd[i].argv != NULL) {
+			for (int j = 0 ; cmd[i].argv[j] != NULL ; j++) {
+				printf("argv : %s\n", cmd[i].argv[j]);
+			}
+		}
 		display_cmd(cmd[i].childs);
 	}
 }

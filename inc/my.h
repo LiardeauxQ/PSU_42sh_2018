@@ -44,5 +44,6 @@ void check_malloc(void *array);
 char *remove_useless_char(char *str, char *c);
 int check_if_str_in_str(char *str1, char *str2);
 char **my_str_to_wordtab_str(char *str1, char *str2);
+char **my_str_to_wordtab_no_supr(char *str1, char *str2);
 
 #endif /* MY_H_ */

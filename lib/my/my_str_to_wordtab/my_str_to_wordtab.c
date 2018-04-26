@@ -2,10 +2,10 @@
 ** EPITECH PROJECT, 2017
 ** lib
 ** File description:
-** my_strtotab.c
+** my_str_to_wordtab.c
 */
 
-#include "my.h"
+#include "../my.h"
 
 int check_same_caractere(char str, char *c)
 {
@@ -35,7 +35,7 @@ int count_char_rec(char *str, char *c)
 	return (size);
 }
 
-static char **initialize_double_array(char *str, char *c)
+static char **initialize_str_to_tab_array(char *str, char *c)
 {
 	int size = count_char_rec(str, c);
 	char **array = malloc(sizeof(char *) * (size + 1));
@@ -56,7 +56,7 @@ char **my_str_to_wordtab(char *str, char *c)
 
 	if (str == NULL || c == NULL || my_strlen(str) == 0)
 		return (NULL);
-	tab_str = initialize_double_array(str, c);
+	tab_str = initialize_str_to_tab_array(str, c);
 	j = check_multiple_caractere(str, c, 0);
 	for (int a = 0 ; j < my_strlen(str) ; a = a) {
 		tab_str[k][a] = str[j];
