@@ -36,6 +36,7 @@ void change_fds_priority(fildes_pipe_t *fd_pr, int cmd_pos);
 void choose_dup_fd(fildes_pipe_t *fd_pr);
 void close_files(fildes_pipe_t *fd_pr);
 fildes_pipe_t initialize_tmp_fildes_descriptor(cmd_t *cmd);
+void destroy_fildes_pipe(fildes_pipe_t *fd_pr);
 
 /* manage_pipe_char */
 

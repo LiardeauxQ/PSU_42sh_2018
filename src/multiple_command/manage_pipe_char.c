@@ -46,11 +46,12 @@ static int wait_all_process(cmd_t *cmd, int quit)
 
 int manage_pipe(cmd_t *cmd, char ***env)
 {
-	fildes_pipe_t fd_pr = initialize_tmp_fildes_descriptor(cmd->childs);
+	fildes_pipe_t fd_pr = {NULL, NULL, 0};
 	int quit = check_if_redir_error(cmd->childs);
 
-	if (env == NULL || quit < 0)
-		return (quit);
+	fd_pr = initialize_tmp_fildes_descriptor(cmd->childs);
+	if (env == NULL || quit < 0 || fd_pr.size == -1)
+		return ((quit == 0) ? (1) : quit);
 	for (int i = 0 ; cmd->childs[i].separator != -1 && quit >= 0 ; i++) {
 		change_fds_priority(&fd_pr, i);
 		if ((quit = check_redirections_char(cmd->childs, i)) > 0)
@@ -63,5 +64,6 @@ int manage_pipe(cmd_t *cmd, char ***env)
 	quit = wait_all_process(cmd->childs, quit);
 	for (int k = 0 ; fd_pr.fildes[k] != -1 ; k++)
 		close(fd_pr.fildes[k]);
+	destroy_fildes_pipe(&fd_pr);
 	return (quit);
 }

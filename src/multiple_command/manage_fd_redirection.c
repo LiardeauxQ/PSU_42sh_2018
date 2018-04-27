@@ -57,9 +57,18 @@ fildes_pipe_t initialize_tmp_fildes_descriptor(cmd_t *cmd)
 	fd_pr.action_rw = malloc((fd_pr.size * 2 + 1) * sizeof(int));
 	check_malloc(fd_pr.action_rw);
 	while (j < (fd_pr.size - 1) * 2) {
-		pipe(fd_pr.fildes + j);
+		if (pipe(fd_pr.fildes + j) == -1) {
+			fd_pr.size = -1;
+			my_puterror("Alias loop.\n");
+		}
 		j = j + 2;
 	}
 	fd_pr.fildes[j] = -1;
 	return (fd_pr);
+}
+
+void destroy_fildes_pipe(fildes_pipe_t *fd_pr)
+{
+	free(fd_pr->fildes);
+	free(fd_pr->action_rw);
 }

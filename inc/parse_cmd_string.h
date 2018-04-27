@@ -24,8 +24,15 @@ typedef struct cmd_s {
 
 /* create_cmd_struct.c */
 
+int find_separator(char *str_cmd, struct cmd_s *cmd);
 cmd_t *create_cmd_struct(char *str_cmd);
+
+/* destroy_cmd_struct.c */
+
 void display_cmd(cmd_t *cmd);
+
+/* print_cmd_struct.c */
+
 void destroy_cmd(cmd_t *cmd);
 
 #endif /* PARSE_CMD_STRING_H_ */

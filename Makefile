@@ -18,6 +18,8 @@ SRC	=	src/manage_env/set_env_commande.c	\
 		src/multiple_command/arrow_char_redirection.c	\
 		src/multiple_command/redirection_char.c	\
 		src/parse_cmd_string/create_cmd_struct.c	\
+		src/parse_cmd_string/destroy_cmd_struct.c	\
+		src/parse_cmd_string/print_cmd_struct.c	\
 		src/manage_exe_commande.c	\
 		src/manage_error.c	\
 		src/check_commande.c	\

@@ -19,7 +19,7 @@ static char *add_end_slash(char *split_path, int k)
 	return (split_path);
 }
 
-char **split_path_variable(char *path_v, char *c)
+char **split_path_var(char *path_v, char *c)
 {
 	char **split_path = my_str_to_wordtab(path_v, c);
 	int str_size = 0;

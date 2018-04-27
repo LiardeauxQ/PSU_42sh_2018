@@ -52,25 +52,25 @@ int exe_cmd(char *split_path, char **arg, char *env[], int *alrd_path)
 
 int manage_executable(char *env[], char **arg)
 {
-	char **split_path = NULL;
+	char **split_pth = split_path_var(find_env_var_value(env, "PATH"), ":");
 	int child_pid = -1;
 	int alrd_path = 0;
 	int status = 0;
 
-	if ((split_path = split_path_variable(find_env_var_value(env, "PATH"),
-	":")) == NULL)
+	if (split_pth == NULL)
 		return (child_pid);
-	child_pid = fork();
-	if (child_pid == -1) {
+	if ((child_pid = fork()) == -1) {
 		my_puterror("Error with fork()\n");
 		exit(84);
-	} else if (child_pid != 0)
+	} else if (child_pid != 0) {
+		destroy_2darray(split_pth);
 		return (child_pid);
-	for (int i = 0 ; split_path[i] != NULL ; i++) {
-		status = exe_cmd(split_path[i], arg, env, &alrd_path);
+	}
+	for (int i = 0 ; split_pth[i] != NULL ; i++) {
+		status = exe_cmd(split_pth[i], arg, env, &alrd_path);
 		if (status != -1)
 			break;
 	}
-	destroy_2darray(split_path);
+	destroy_2darray(split_pth);
 	return (child_pid);
 }

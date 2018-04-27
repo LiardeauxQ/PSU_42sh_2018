@@ -22,7 +22,7 @@ char *create_var_env(char **argv, int size_cmd);
 int unset_env_commande(char ***env, char **argv);
 
 char *update_var_env(char *var_name, char *var_value);
-char **split_path_variable(char *path_v, char *c);
+char **split_path_var(char *path_v, char *c);
 int check_if_is_cmd(char *env[], char *cmd_name);
 int manage_executable(char *env[], char **arg);
 char *split_cmd_when_space(char *arg, char *cmd, int *b);
