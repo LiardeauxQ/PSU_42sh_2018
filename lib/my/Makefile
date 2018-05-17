@@ -22,6 +22,7 @@ SRCLIB	=	my_putchar.c	\
 		my_str_to_wordtab/my_str_to_wordtab_str.c	\
 		my_str_to_wordtab/my_str_to_wordtab_no_supr.c	\
 		remove_needless_char.c	\
+		base_convertion.c	\
 		my_strtoi.c
 
 OBJLIB	=	$(SRCLIB:.c=.o)
