@@ -16,6 +16,7 @@
 typedef struct cmd_s {
 	int separator;
 	int redirection;
+	int exit_statu;
 	char *cmd;
 	char **argv;
 	struct cmd_s *childs;

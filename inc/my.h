@@ -47,5 +47,8 @@ int check_if_str_in_str(char *str1, char *str2);
 char **my_str_to_wordtab_str(char *str1, char *str2);
 char **my_str_to_wordtab_no_supr(char *str1, char *str2);
 int count_str_rec(char *str1, char *str2);
+int check_multiple_caractere(char *str, char *c, int i);
+int convert_base_to_decimal(char *nb, int base);
+int my_pow(int nb, int pow_nbr);
 
 #endif /* MY_H_ */

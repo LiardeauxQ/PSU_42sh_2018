@@ -18,8 +18,6 @@ typedef struct list_s
 
 typedef struct mysh_s
 {
-	list_t *env_list;
-	list_t *history;
 	list_t *alias;
 } mysh_t;
 

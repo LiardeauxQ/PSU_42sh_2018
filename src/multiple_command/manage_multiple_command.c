@@ -72,6 +72,7 @@ int manage_multiple_commande(char *str_cmd, char ***env)
 		return (1);
 	quit = analyse_cmd_struct(cmd, env);
 	quit = print_redirection_error(quit);
+	display_cmd(cmd);
 	destroy_cmd(cmd);
 	return (quit);
 }

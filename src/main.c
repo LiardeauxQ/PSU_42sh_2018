@@ -28,7 +28,6 @@ char *env[])
 		else if (my_strcmp(av[0], "unalias"))
 			return (my_unalias(sh, av));
 		quit = manage_multiple_commande(buf, &env);
-		free(cmd);
 		free(buf);
 	}
 	return ((quit == -1 || quit == 255) ? (0) : quit);

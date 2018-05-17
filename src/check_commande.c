@@ -7,19 +7,22 @@
 
 #include "minishell.h"
 
-static int manage_builtin_cmd(char ***env, char **argv, int size)
+static int manage_builtin_cmd(char ***env, cmd_t *cmd, int size)
 {
-	if (env == NULL || argv == NULL)
+	if (env == NULL || cmd->argv == NULL)
 		return (-2);
-	if (my_strcmp(argv[0], "env")) {
+	if (my_strcmp(cmd->argv[0], "env")) {
 		display_env_var(*env);
 		return (0);
-	} else if (my_strcmp(argv[0], "setenv"))
-		return (set_environment_cmd(env, argv, size));
-	if (my_strcmp(argv[0], "unsetenv"))
-		return (unset_env_commande(env, argv));
-	else if (my_strcmp(argv[0], "cd"))
-		return (change_dir_cmd(env, argv));
+	} else if (my_strcmp(cmd->argv[0], "setenv"))
+		return (set_environment_cmd(env, cmd->argv, size));
+	if (my_strcmp(cmd->argv[0], "echo")) {
+		return (execute_echo_command(cmd));
+	}
+	if (my_strcmp(cmd->argv[0], "unsetenv"))
+		return (unset_env_commande(env, cmd->argv));
+	else if (my_strcmp(cmd->argv[0], "cd"))
+		return (change_dir_cmd(env, cmd->argv));
 	return (-1);
 }
 
@@ -78,7 +81,7 @@ int check_one_command(cmd_t *cmd, char ***env)
 		return (-1);
 	if (size == 0)
 		return (0);
-	if ((status = manage_builtin_cmd(env, cmd->argv, size)) == -1)
+	if ((status = manage_builtin_cmd(env, cmd, size)) == -1)
 		status = execute_command(cmd->argv, env);
 	return (status);
 }
