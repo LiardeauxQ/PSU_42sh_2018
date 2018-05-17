@@ -13,15 +13,19 @@ char *env[])
 	char *buf = NULL;
 	int quit = 0;
 	cmd_t *cmd = NULL;
+	int fd_hist = open("src/history/.42sh_history", O_CREAT | O_RDWR
+	| O_APPEND);
 
 	while (quit != -1 && quit != 255) {
 		my_putstr("$> ");
 		buf = get_next_line(0);
 		if (buf == NULL)
 			break;
+		stock_history(fd_hist, buf);
 		quit = manage_multiple_commande(buf, &env);
 		free(cmd);
 		free(buf);
 	}
+	close(fd_hist);
 	return ((quit == -1 || quit == 255) ? (0) : quit);
 }

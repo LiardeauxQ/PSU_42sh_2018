@@ -23,6 +23,7 @@ SRC	=	src/manage_env/set_env_commande.c	\
 		src/manage_exe_commande.c	\
 		src/manage_error.c	\
 		src/check_commande.c	\
+		src/history/manage_history.c	\
 		src/main.c
 
 OBJ	=	$(SRC:.c=.o)

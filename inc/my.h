@@ -18,7 +18,9 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <dirent.h>
+#include <sys/stat.h>
 
+char *int_tostr(int n);
 int my_put_nbr(int nb);
 void my_putchar(char c);
 int my_putstr(char const *str);

@@ -11,6 +11,7 @@
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <termios.h>
+#include <time.h>
 #include "manage_environment.h"
 #include "change_directorie_cmd.h"
 #include "manage_error.h"
@@ -22,5 +23,9 @@
 
 int check_exe_signal(int wstatus);
 int check_one_command(cmd_t *cmd, char ***env);
+
+/* manage_history.c */
+
+void stock_history(int fd, char *buf);
 
 #endif /* MINISHELL_H_ */
