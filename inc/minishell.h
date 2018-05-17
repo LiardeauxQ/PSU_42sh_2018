@@ -16,6 +16,7 @@
 #include "manage_error.h"
 #include "parse_cmd_string.h"
 #include "manage_multiple_command.h"
+#include "aliase.h"
 #include "my.h"
 
 /* check_commande.c */

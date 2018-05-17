@@ -20,6 +20,10 @@ SRC	=	src/manage_env/set_env_commande.c	\
 		src/parse_cmd_string/create_cmd_struct.c	\
 		src/parse_cmd_string/destroy_cmd_struct.c	\
 		src/parse_cmd_string/print_cmd_struct.c	\
+		src/aliase/init_aliase.c	\
+		src/aliase/manage_aliase.c	\
+		src/aliase/utils_aliase.c	\
+		src/aliase/utils_functions.c	\
 		src/manage_exe_commande.c	\
 		src/manage_error.c	\
 		src/check_commande.c	\
