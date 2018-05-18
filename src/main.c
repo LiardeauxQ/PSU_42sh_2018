@@ -7,6 +7,44 @@
 
 #include "minishell.h"
 
+char getch_one_char(int fd)
+{
+	char buf = 0;
+	struct termios ter = {0};
+
+	if (ioctl(fd, TCGETS, &ter) < 0)
+		perror("tcsetattr()");
+	ter.c_lflag &= ~ICANON;
+	ter.c_lflag &= ~ECHO;
+	ter.c_cc[VMIN] = 1;
+	ter.c_cc[VTIME] = 0;
+	if (ioctl(fd, TCSETS, &ter) < 0)
+		perror("tcsetattr ICANON");
+	if (read(fd, &buf, 1) < 0)
+		perror("read()");
+	ter.c_lflag |= ICANON;
+	ter.c_lflag |= ECHO;
+	if (ioctl(fd, TCSETSW, &ter) < 0)
+		perror("tcsetattr ~ICANON");
+	return (buf);
+}
+
+char *read_line_cmd(void)
+{
+	char c = 0;
+	char *buf;
+	int i = 0;
+
+	while (c != '\n') {
+		c = getch_one_char(0);
+		buf = realloc(buf, (i + 2) * sizeof(char));
+		buf[i] = c;
+		i = i + 1;
+	}
+	buf[i - 1] = '\0';
+	return (buf);
+}
+
 int main(int __attribute__((unused)) ac, char __attribute__((unused)) *av[],
 char *env[])
 {

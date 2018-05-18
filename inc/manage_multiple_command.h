@@ -27,6 +27,8 @@ int check_already_path(char *pathname);
 
 /* manage_multiple_command.c */
 
+int check_one_separator_command(cmd_t *cmd, char ***env);
+int analyse_cmd_struct(cmd_t *cmd, char ***env);
 int check_if_redir_error(cmd_t *cmd);
 int manage_multiple_commande(char *str_cmd, char ***env);
 
@@ -59,5 +61,10 @@ char **remove_redir_char(char **argv);
 int check_if_redirection(char **split_cmd);
 int check_redirections_char(cmd_t *cmd, int pos);
 int manage_redirection(cmd_t *cmd, char ***env, int type, fildes_pipe_t *fd_pr);
+
+/* condition_command.c */
+
+int or_condition_cmd(cmd_t *cmd, char ***env);
+int and_condition_cmd(cmd_t *cmd, char ***env);
 
 #endif /* MANAGE_MULTIPLE_COMMAND_H_ */

@@ -7,7 +7,7 @@
 
 #include "minishell.h"
 
-int check_empty_line(char *cmd)
+static int check_empty_line(char *cmd)
 {
 	int i = 0;
 	int size = 0;
@@ -40,22 +40,35 @@ int check_if_redir_error(cmd_t *cmd)
 	return (quit);
 }
 
+int check_one_separator_command(cmd_t *cmd, char ***env)
+{
+	int quit = 0;
+
+	if (cmd == NULL)
+		return (-1);
+	if (cmd->redirection != 0) {
+		quit = manage_redirection(cmd, env, 
+		cmd->redirection, NULL);
+		return (quit);
+	}
+	if (cmd->separator == PIPE_SEP)
+		quit = manage_pipe(cmd, env);
+	if (cmd->separator == OR_SEP)
+		quit = or_condition_cmd(cmd, env);
+	if (cmd->separator == AND_SEP)
+		quit = and_condition_cmd(cmd, env);
+	if (cmd->separator == 0)
+		quit = check_one_command(cmd, env);
+	return (quit);
+}
+
 int analyse_cmd_struct(cmd_t *cmd, char ***env)
 {
 	int quit = 0;
 
-	for (int i = 0 ; cmd[i].separator != -1 ; i++) {
-		if (cmd[i].redirection != 0) {
-			quit = manage_redirection(&cmd[i], env,
-				cmd[i].redirection, NULL);
-			continue;
-		}
-		if (cmd[i].separator == PIPE_SEP)
-			quit = manage_pipe(&cmd[i], env);
-		if (cmd[i].separator == OR_SEP);
-		if (cmd[i].separator == AND_SEP);
-		if (cmd[i].separator == 0)
-			quit = check_one_command(&cmd[i], env);
+	for (int i = 0 ; cmd[i].separator != -1 && cmd[i].cmd != NULL ; i++) {
+		//display_cmd(cmd[i].childs)
+		quit = check_one_separator_command(&cmd[i], env);
 	}
 	return (quit);
 }
@@ -70,9 +83,9 @@ int manage_multiple_commande(char *str_cmd, char ***env)
 	cmd = create_cmd_struct(str_cmd);
 	if (cmd == NULL)
 		return (1);
+	//display_cmd(cmd);
 	quit = analyse_cmd_struct(cmd, env);
 	quit = print_redirection_error(quit);
-	display_cmd(cmd);
 	destroy_cmd(cmd);
 	return (quit);
 }

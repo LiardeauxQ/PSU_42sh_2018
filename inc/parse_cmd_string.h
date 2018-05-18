@@ -16,7 +16,7 @@
 typedef struct cmd_s {
 	int separator;
 	int redirection;
-	int exit_statu;
+	int exit_status;
 	char *cmd;
 	char **argv;
 	struct cmd_s *childs;
@@ -28,11 +28,11 @@ typedef struct cmd_s {
 int find_separator(char *str_cmd, struct cmd_s *cmd);
 cmd_t *create_cmd_struct(char *str_cmd);
 
-/* destroy_cmd_struct.c */
+/* display_cmd_struct.c */
 
 void display_cmd(cmd_t *cmd);
 
-/* print_cmd_struct.c */
+/* destroy_cmd_struct.c */
 
 void destroy_cmd(cmd_t *cmd);
 
