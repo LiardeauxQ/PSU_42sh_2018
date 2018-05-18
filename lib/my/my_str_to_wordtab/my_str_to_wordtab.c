@@ -43,6 +43,8 @@ char **my_str_to_wordtab(char *str, char *c)
 	char **array = NULL;
 	int size = 1;
 
+	if (str == NULL)
+		return (NULL);
 	while (token != NULL) {
 		array = realloc(array, (size + 1) * sizeof(char *));
 		array[size - 1] = my_strdup(token);

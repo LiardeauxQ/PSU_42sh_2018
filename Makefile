@@ -30,25 +30,41 @@ SRC	=	src/manage_env/set_env_commande.c	\
 
 OBJ	=	$(SRC:.c=.o)
 
+CC	=	cc
+
 CFLAGS	=	-g -I inc/ -Wall -Wextra
 
 LDFLAGS	=	-L lib/my -lmy
 
 NAME	=	42sh
 
+RED		=	\033[0;31m
+GREEN		=	\033[0;32m
+NC		=	\033[0m
+GREY		=	\033[90m
+BG_COLOR	=	\033[46m
+
 all:	$(NAME)
 
 $(NAME):	$(OBJ)
-	make -C lib/my
-	gcc -o $(NAME) $(OBJ) $(LDFLAGS)
+	@echo -e '${BG_COLOR}Flags: $(LDFLAGS) $(CFLAGS)${NC}'
+	@echo -e '${GREEN}Create${NC}: ${GREY}./$(NAME)${NC}'
+	@make --no-print-directory -C lib/my
+	@$(CC) -o $(NAME) $(OBJ) $(LDFLAGS)
+
+%.o:	%.c
+	@echo -e '${GREEN} [ OK ]${NC} Building : $<'
+	@$(CC) -o $@ -c $< $(LDFLAGS) $(CFLAGS)
 
 clean:
-	make clean -C lib/my
-	rm -f $(OBJ)
+	@make clean -C lib/my
+	@rm -f $(OBJ)
+	@echo -e '${RED}Clean${NC} : OK'
 
 fclean: clean
-	make fclean -C lib/my
-	rm -f $(NAME)
+	@make fclean -C lib/my
+	@rm -f $(NAME)
+	@echo -e '${RED}Fclean${NC}: ./$(NAME) removed'
 
 re: fclean all
 
