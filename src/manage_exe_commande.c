@@ -29,9 +29,11 @@ char *add_cmd_to_path(char *cmd_name, char *split_path, int *alrd_path)
 			return (NULL);
 		split_path = cmd_name;
 		*alrd_path = 1;
-	} else if (status == 0)
+	} else if (status == 0) {
+		split_path = realloc(split_path, my_strlen(split_path)
+		+ my_strlen(cmd_name) + 1);
 		split_path = my_strcat(split_path, cmd_name);
-	else
+	} else
 		return (NULL);
 	return (split_path);
 }
