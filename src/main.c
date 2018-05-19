@@ -17,7 +17,7 @@ char *env[])
 
 	while (quit != -1 && quit != 255) {
 		my_putstr("$> ");
-		buf = read_line_cmd();
+		buf = get_next_line(0);//read_line_cmd();
 		if (buf == NULL)
 			break;
 		quit = manage_multiple_commande(buf, &env);

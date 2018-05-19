@@ -23,13 +23,16 @@ char **split_path_var(char *path_v, char *c)
 {
 	char **split_path = my_str_to_wordtab(path_v, c);
 	int str_size = 0;
+	int i = 0;
 
 	if (split_path == NULL)
 		return (NULL);
-	for (int i = 0 ; split_path[i] != NULL ; i++) {
+	while (split_path[i] != NULL) {
 		str_size = my_strlen(split_path[i]);
 		split_path[i] = add_end_slash(split_path[i], str_size);
+		i = i + 1;
 	}
+	split_path[i] = NULL;
 	free(path_v);
 	return (split_path);
 }

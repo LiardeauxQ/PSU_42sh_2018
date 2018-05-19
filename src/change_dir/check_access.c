@@ -37,8 +37,7 @@ int check_if_is_cmd(char *env[], char *cmd_name)
 
 	if (env == NULL || cmd_name == NULL)
 		return (0);
-	split_path = split_path_var(find_env_var_value(env, "PATH"),
-	":");
+	split_path = split_path_var(find_env_var_value(env, "PATH"), ":");
 	if (split_path == NULL)
 		return (manage_cmd_not_found(cmd_name));
 	status = check_access(split_path, cmd_name);
