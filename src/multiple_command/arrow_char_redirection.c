@@ -11,6 +11,7 @@ int simple_left_arrow(char ***env, cmd_t *cmd, char *filename,
 	fildes_pipe_t *fd_pr)
 {
 	int fd = 0;
+	int status = 0;
 
 	if (env == NULL || cmd == NULL || filename == NULL)
 		return (-1);
@@ -23,9 +24,9 @@ int simple_left_arrow(char ***env, cmd_t *cmd, char *filename,
 	if (dup2(fd, 0) == 1)
 		return (-1);
 	cmd->argv = remove_redir_char(cmd->argv);
-	check_one_command(cmd, env);
+	status = check_one_command(cmd, env);
 	close(fd);
-	return (0);
+	return (status);
 }
 
 int simple_right_arrow(char ***env, cmd_t *cmd, char *filename,
@@ -33,6 +34,7 @@ int simple_right_arrow(char ***env, cmd_t *cmd, char *filename,
 {
 	mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 	int fd = 0;
+	int status = 0;
 
 	if (env == NULL || cmd == NULL || filename == NULL)
 		return (-1);
@@ -45,9 +47,9 @@ int simple_right_arrow(char ***env, cmd_t *cmd, char *filename,
 	if (dup2(fd, 1) == -1)
 		return (-1);
 	cmd->argv = remove_redir_char(cmd->argv);
-	check_one_command(cmd, env);
+	status = check_one_command(cmd, env);
 	close(fd);
-	return (0);
+	return (status);
 }
 
 static void write_double_left_arrow(char *end_str, int *fds)
@@ -74,6 +76,7 @@ int double_left_arrow(char ***env, cmd_t *cmd, char *end_str,
 	fildes_pipe_t *fd_pr)
 {
 	int fds[2] = {0, 0};
+	int status = 0;
 
 	if (env == NULL || cmd == NULL || end_str == NULL)
 		return (-1);
@@ -85,15 +88,16 @@ int double_left_arrow(char ***env, cmd_t *cmd, char *end_str,
 		return (-1);
 	close(fds[1]);
 	cmd->argv = remove_redir_char(cmd->argv);
-	check_one_command(cmd, env);
+	status = check_one_command(cmd, env);
 	close(fds[0]);
-	return (0);
+	return (status);
 }
 
 int double_right_arrow(char ***env, cmd_t *cmd, char *filename,
 	fildes_pipe_t *fd_pr)
 {
 	int fd = 0;
+	int status = 0;
 
 	if (env == NULL || cmd == NULL || filename == NULL)
 		return (-1);
@@ -106,7 +110,7 @@ int double_right_arrow(char ***env, cmd_t *cmd, char *filename,
 	if (dup2(fd, 1) == -1)
 		return (-1);
 	cmd->argv = remove_redir_char(cmd->argv);
-	check_one_command(cmd, env);
+	status = check_one_command(cmd, env);
 	close(fd);
-	return (0);
+	return (status);
 }

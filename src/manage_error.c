@@ -30,8 +30,7 @@ int print_redirection_error(int error)
 
 int check_cd_error(char *directory, int cmd_size)
 {
-	int is_dir = access(directory, F_OK);
-	int read_dir = access(directory, R_OK);
+	int is_dir = 0;
 
 	if (directory == NULL)
 		return (0);
@@ -41,7 +40,8 @@ int check_cd_error(char *directory, int cmd_size)
 		my_puterror("cd : too many arguments.\n");
 		return (1);
 	}
-	if (is_dir == -1 || read_dir == -1) {
+	is_dir = access(directory, F_OK);
+	if (is_dir == -1 || access(directory, R_OK) == -1) {
 		my_puterror(directory);
 		if (is_dir == -1)
 			my_puterror(": No such file or directory.\n");

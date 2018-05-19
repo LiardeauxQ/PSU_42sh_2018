@@ -82,6 +82,7 @@ int manage_redirection(cmd_t *cmd, char ***env, int type, fildes_pipe_t *fd_pr)
 	} else if (pid > 0) {
 		close_files(fd_pr);
 		waitpid(pid, &wstatus, 0);
+		quit = wstatus;
 	}
 	return (quit);
 }
