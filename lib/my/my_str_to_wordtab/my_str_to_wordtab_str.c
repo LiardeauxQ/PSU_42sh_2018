@@ -5,7 +5,7 @@
 ** my_str_to_wordtab_str.c
 */
 
-#include "../my.h"
+#include "my.h"
 
 int check_if_str_in_str(char *str1, char *str2)
 {

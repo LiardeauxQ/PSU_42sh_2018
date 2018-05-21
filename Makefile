@@ -35,7 +35,7 @@ CC	=	cc
 
 CFLAGS	=	-g -I inc/ -Wall -Wextra
 
-LDFLAGS	=	-L lib/my -lmy
+LDFLAGS	=	-L lib/my -lmy -lncurses
 
 NAME	=	42sh
 

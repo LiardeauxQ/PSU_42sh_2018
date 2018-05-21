@@ -11,13 +11,11 @@ int main(int __attribute__((unused)) ac, char __attribute__((unused)) *av[],
 char *env[])
 {
 	char *buf = NULL;
-	char *tab[] = {"ls", "cd", "ok", "test", "aze", "mlk", NULL};
-	int size = count_2d_array(tab) - 1;
 	int quit = 0;
 
 	while (quit != -1 && quit != 255) {
 		my_putstr("$> ");
-		buf = get_next_line(0);//read_line_cmd();
+		buf = read_line_cmd();
 		if (buf == NULL)
 			break;
 		quit = manage_multiple_commande(buf, &env);
@@ -33,4 +31,4 @@ char *env[])
 			break;
 		quit = manage_multiple_commande(buf, &env);
 		free(buf);
-	}*/
+	}*/ 

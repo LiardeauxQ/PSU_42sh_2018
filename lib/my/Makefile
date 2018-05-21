@@ -29,7 +29,7 @@ OBJLIB	=	$(SRCLIB:.c=.o)
 
 NAMELIB	=	libmy.a
 
-CFLAGS	=	-g -W
+CFLAGS	=	-g -W -I.
 
 RED		=	\033[0;31m
 GREEN		=	\033[0;32m

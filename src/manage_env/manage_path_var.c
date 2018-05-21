@@ -21,10 +21,13 @@ static char *add_end_slash(char *split_path, int k)
 
 char **split_path_var(char *path_v, char *c)
 {
-	char **split_path = my_str_to_wordtab(path_v, c);
+	char **split_path = NULL;
 	int str_size = 0;
 	int i = 0;
 
+	if (path_v == NULL)
+		return (NULL);
+	split_path = my_str_to_wordtab(path_v, c);
 	if (split_path == NULL)
 		return (NULL);
 	while (split_path[i] != NULL) {
@@ -32,7 +35,6 @@ char **split_path_var(char *path_v, char *c)
 		split_path[i] = add_end_slash(split_path[i], str_size);
 		i = i + 1;
 	}
-	split_path[i] = NULL;
 	free(path_v);
 	return (split_path);
 }

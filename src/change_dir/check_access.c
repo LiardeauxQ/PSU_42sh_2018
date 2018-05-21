@@ -25,8 +25,6 @@ static int check_access(char **split_path, char *cmd_name)
 		if (status != -1)
 			break;
 	}
-	if (alrd_path != 1)
-		destroy_2darray(split_path);
 	return (status);
 }
 

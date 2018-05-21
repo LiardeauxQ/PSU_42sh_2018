@@ -5,7 +5,7 @@
 ** my_str_to_wordtab.c
 */
 
-#include "../my.h"
+#include "my.h"
 
 int check_same_caractere(char str, char *c)
 {

@@ -5,7 +5,7 @@
 ** my_str_to_wordtab_no_supr.c
 */
 
-#include "../my.h"
+#include "my.h"
 
 static char *add_sep_str(char *str, char *str1, char *str2, int *j)
 {
