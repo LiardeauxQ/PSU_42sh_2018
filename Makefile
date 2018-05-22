@@ -23,6 +23,8 @@ SRC	=	src/manage_env/set_env_commande.c	\
 		src/parse_cmd_string/create_cmd_struct.c	\
 		src/parse_cmd_string/destroy_cmd_struct.c	\
 		src/parse_cmd_string/print_cmd_struct.c	\
+		src/catch_cmd_string/key_event.c	\
+		src/catch_cmd_string/buffer_modification.c	\
 		src/catch_cmd_string/read_cmd_string.c	\
 		src/manage_exe_commande.c	\
 		src/manage_error.c	\
