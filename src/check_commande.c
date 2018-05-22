@@ -9,6 +9,12 @@
 
 static int manage_builtin_cmd(char ***env, cmd_t *cmd, int size)
 {
+	int i = 0;
+	list_alias_t *list_alias;
+
+	if (i == 0)
+		list_alias = new_list_alias();
+
 	if (env == NULL || cmd->argv == NULL)
 		return (-2);
 	if (my_strcmp(cmd->argv[0], "env")) {
@@ -24,9 +30,10 @@ static int manage_builtin_cmd(char ***env, cmd_t *cmd, int size)
 	else if (my_strcmp(cmd->argv[0], "cd"))
 		return (change_dir_cmd(env, cmd->argv));
 	if (my_strcmp(cmd->argv[0], "alias"))
-		return (my_alias(cmd));
+		return (my_alias(list_alias, cmd->argv[1]));
 	else if (my_strcmp(cmd->argv[0], "unalias"))
-		return (my_unalias(cmd));
+		return (my_unalias(list_alias, cmd->argv[1]));
+	i = 1;
 	return (-1);
 }
 
