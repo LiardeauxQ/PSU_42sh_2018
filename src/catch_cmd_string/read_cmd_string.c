@@ -49,20 +49,16 @@ void print_arrow(char arrow_type)
 	putchar_fd(arrow_type, 0);
 }
 
-void clean_window_buffer(stock_buffer_t *stk_buf)
+void clean_window_buffer(stock_buffer_t *stk_buf, int last_size, int *j)
 {
-	int quit = 0;
-
 	if (stk_buf->pos == stk_buf->size) {
 		for (int i = 0 ; i < last_size
 		- my_strlen(stk_buf->buf) ; i++) {
 			putstr_fd("\b \b", 0);
-			j = j - 1;
+			*j = *j - 1;
 		}
-		quit = 1;
 	} else
-		j = stk_buf->pos - 1;
-	return (quit);
+		*j = stk_buf->pos - 1;
 }
 
 int print_buffer(stock_buffer_t *stk_buf)
@@ -75,8 +71,7 @@ int print_buffer(stock_buffer_t *stk_buf)
 		j = 0;
 		return (1);
 	}
-	if (clean_window_buffer(stk_buf) == 0)
-		j = stk_buf->pos - 1;
+	clean_window_buffer(stk_buf, last_size, &j);
 	while (j < my_strlen(stk_buf->buf)) {
 		if (stk_buf->spe_buf[j] != -1)
 			putchar_fd(stk_buf->spe_buf[j], 0);
