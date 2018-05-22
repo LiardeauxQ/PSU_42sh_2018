@@ -20,6 +20,8 @@ static int manage_builtin_cmd(char ***env, char **argv, int size)
 		return (unset_env_commande(env, argv));
 	else if (my_strcmp(argv[0], "cd"))
 		return (change_dir_cmd(env, argv));
+	if (my_strcmp(argv[0], "history"))
+		return (manage_history_command(env, argv));
 	return (-1);
 }
 

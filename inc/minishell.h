@@ -27,5 +27,7 @@ int check_one_command(cmd_t *cmd, char ***env);
 /* manage_history.c */
 
 void stock_history(int fd, char *buf);
+int manage_history_command(char ***env, char **argv);
+void display_history_count(int number);
 
 #endif /* MINISHELL_H_ */
