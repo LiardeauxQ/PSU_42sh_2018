@@ -42,6 +42,29 @@ char getch_one_char(int fd)
 	return (buf);
 }
 
+void print_arrow(char arrow_type)
+{
+	putchar_fd(27, 0);
+	putchar_fd(91, 0);
+	putchar_fd(arrow_type, 0);
+}
+
+void clean_window_buffer(stock_buffer_t *stk_buf)
+{
+	int quit = 0;
+
+	if (stk_buf->pos == stk_buf->size) {
+		for (int i = 0 ; i < last_size
+		- my_strlen(stk_buf->buf) ; i++) {
+			putstr_fd("\b \b", 0);
+			j = j - 1;
+		}
+		quit = 1;
+	} else
+		j = stk_buf->pos - 1;
+	return (quit);
+}
+
 int print_buffer(stock_buffer_t *stk_buf)
 {
 	static int last_size = 0;
@@ -52,25 +75,18 @@ int print_buffer(stock_buffer_t *stk_buf)
 		j = 0;
 		return (1);
 	}
-	for (int i = 0 ; i < last_size - my_strlen(stk_buf->buf) ; i++) {
-		putstr_fd("\b \b", 0);
-		j = j - 1;
-	}
+	if (clean_window_buffer(stk_buf) == 0)
+		j = stk_buf->pos - 1;
 	while (j < my_strlen(stk_buf->buf)) {
 		if (stk_buf->spe_buf[j] != -1)
 			putchar_fd(stk_buf->spe_buf[j], 0);
 		putchar_fd(stk_buf->buf[j], 0);
 		j = j + 1;
 	}
+	for (int a = 0 ; a < stk_buf->size - stk_buf->pos ; a++)
+		print_arrow(68);
 	last_size = my_strlen(stk_buf->buf);
 	return (0);
-}
-
-void print_arrow(char arrow_type)
-{
-	putchar_fd(27, 0);
-	putchar_fd(91, 0);
-	putchar_fd(arrow_type, 0);
 }
 
 int check_arrow_key(void)
@@ -106,10 +122,10 @@ static int check_arrow_key_event(stock_buffer_t *stk_buf)
 			free(stk_buf->buf);
 		stk_buf->buf = my_strdup(test[a]);
 	}
-	if (arrow == 2) {
+	if (arrow == 2 && stk_buf->pos < stk_buf->size) {
 		stk_buf->pos += 1;
 		print_arrow(67);
-	} else if (arrow == 4) {
+	} else if (arrow == 4 && stk_buf->pos > 0) {
 		stk_buf->pos -= 1;
 		print_arrow(68);
 	}
@@ -150,27 +166,43 @@ static int check_special_char(stock_buffer_t *stk_buf, int cols)
 	return (quit);
 }
 
-int add_char_in_buffer(char *buffer, char c, int cursor_pos)
+char *add_char_in_buffer(char *buffer, char c, int cursor_pos, int size)
 {
-	char tmp = 0;
+	char tmp1 = 0;
+	char tmp2 = 0;
+	int buf_size = my_strlen(buffer);
+	int i = 0;
 
-	tmp = buffer[cursor_pos - 3];
-	return (0);
+	tmp1 = buffer[cursor_pos];
+	buffer[cursor_pos] = c;
+	
+	if (size == cursor_pos) {
+		buffer[cursor_pos + 1] = tmp1;
+		return (buffer);
+	}
+	for (i = cursor_pos + 1 ; i < buf_size + 1 ; i++) {
+		tmp2 = buffer[i];
+		buffer[i] = tmp1;
+		tmp1 = tmp2;
+	}
+	buffer[i] = tmp1;
+	return (buffer);
 }
 
 void fill_buf(stock_buffer_t *stk_buf, int cols)
 {
 	stk_buf->buf = realloc(stk_buf->buf, (stk_buf->size + 2));
 	stk_buf->spe_buf = realloc(stk_buf->spe_buf, (stk_buf->size + 2));
+	stk_buf->buf[stk_buf->size] = '\0';
+	stk_buf->spe_buf[stk_buf->size] = '\0';
 	if (stk_buf->c == '\n')
-		stk_buf->buf[stk_buf->pos] = '\0';
+		stk_buf->buf[stk_buf->size] = '\0';
 	else
-		stk_buf->buf[stk_buf->pos] = stk_buf->c;
-	stk_buf->buf[stk_buf->pos + 1] = '\0';
+		stk_buf->buf = add_char_in_buffer(stk_buf->buf, stk_buf->c,
+		stk_buf->pos, stk_buf->size);
 	stk_buf->spe_buf[stk_buf->pos] = -1;
 	if (my_strlen(stk_buf->buf) % cols == cols - 1)
 		stk_buf->spe_buf[stk_buf->pos] = '\n';
-	stk_buf->spe_buf[stk_buf->pos + 1] = '\0';
 	stk_buf->pos = stk_buf->pos + 1;
 	stk_buf->size = stk_buf->size + 1;
 }
@@ -180,12 +212,13 @@ char *read_line_cmd(void)
 	stock_buffer_t stk_buf = {0, 0, 0, NULL, NULL};
 	int spe = 0;
 	int arrow = 0;
-	int i = 0;
+	int cols = 0;
 
 	tgetent(NULL, getenv("TERM"));
-	int cols = tgetnum("co") - 2;
+	cols = tgetnum("co") - 2;
 	while (stk_buf.c != '\n') {
-		print_buffer(&stk_buf);
+		if (arrow == 0)
+			print_buffer(&stk_buf);
 		stk_buf.c = getch_one_char(0);
 		spe = check_special_char(&stk_buf, cols);
 		arrow = check_arrow_key_event(&stk_buf);
