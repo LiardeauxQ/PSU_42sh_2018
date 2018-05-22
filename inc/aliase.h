@@ -12,7 +12,7 @@ typedef struct list_alias_s
 {
 	char *cmd;
 	char *new_cmd;
-	struct list_alias_t *next;
+	struct list_alias_s *next;
 } list_alias_t;
 
 /*bacis alias and unalias command*/
@@ -36,6 +36,6 @@ void print_list(list_alias_t *list_alias);
 
 /*Check alias and unalias existence*/
 char *is_unalias(list_alias_t *list_alias, char *cmd);
-char *is_alias(list_alias_t *list_alias, char *cmd);
+char *replace_alias(list_alias_t *list_alias, char *cmd);
 
 #endif /* ALIASE_H_ */

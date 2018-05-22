@@ -12,8 +12,10 @@ static int manage_builtin_cmd(char ***env, cmd_t *cmd, int size)
 	int i = 0;
 	list_alias_t *list_alias;
 
-	if (i == 0)
+	if (i == 0) {
 		list_alias = new_list_alias();
+		i = 1;
+	}
 
 	if (env == NULL || cmd->argv == NULL)
 		return (-2);
@@ -33,7 +35,6 @@ static int manage_builtin_cmd(char ***env, cmd_t *cmd, int size)
 		return (my_alias(list_alias, cmd->argv[1]));
 	else if (my_strcmp(cmd->argv[0], "unalias"))
 		return (my_unalias(list_alias, cmd->argv[1]));
-	i = 1;
 	return (-1);
 }
 
