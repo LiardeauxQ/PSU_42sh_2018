@@ -17,27 +17,6 @@ int	count_inhib(char *cmd)
 	return (res);
 }
 
-/*int	check_tab(char c)
-{
-	if (c == '\ ' || c == '\'' || c == '\"' || c == '\\')
-		return (0);
-	else if (c == '\?' || c == '\0' || c == '\a' || c == '\b' ||
-		c == '\f' || c == '\n' || c == '\r' || c == '\t' ||
-		c == '\v')
-		return (1);
-}
-
-char	*ignore_inhib(char *cmd)
-{
-	while (*cmd)
-		if (check_tab(*cmd) == 0)
-			++(*cmd);
-		else
-			(*cmd) += 1;
-	return (cmd);
-}
-*/
-
 char	*basic_inhib(char *cmd, char c, int i)
 {
 	if (c != '\0')
@@ -84,7 +63,7 @@ char	*replace_ascii_inhib(char *cmd)
 		if (cmd[i] == '\\' && cmd[i + 1] == 'r')
 			cmd = basic_inhib(cmd, 13, i);
 	}
-	return (cmd);
+	return (spaces_inhib(cmd));
 }
 
 char	*manage_inhibitors(char *cmd)
@@ -92,16 +71,14 @@ char	*manage_inhibitors(char *cmd)
 	char	**tab = NULL;
 	char	inhib[4] = {' ', '"', '\'', '\\'};
 
-	if (count_inhib(cmd) == 0)
+	if (count_inhib(cmd) == 0) {
+		tab = my_str_to_wordtab(cmd, " ");
+		free(cmd);
 		return (cmd);
-	for (int i = 0; i < 4; i++) {
-		tab = my_str_to_back_tab(cmd, inhib[i]);
-//		for (int j = 0; tab[j] != NULL; j++)
-//			printf("%s\n", tab[j]);
-		my_free_tab(tab);
 	}
-//	cmd = ignore_inhib(cmd);
-//	cmd = replace_ascii_inhib(cmd);
-//	cmd = spaces_inhib(cmd);
+	for (int i = 0; i < 4; i++)
+		if (my_is_in_str(cmd, inhib[i]) == 1)
+			tab = my_str_to_back_tab(tab, cmd, inhib[i]);
+	
 	return (cmd);
 }

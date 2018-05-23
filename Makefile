@@ -12,7 +12,8 @@ SRC	=	src/manage_env/set_env_commande.c		\
 		src/manage_inhibitors/my_free_tab.c		\
 		src/manage_inhibitors/my_str_to_backslash_tab.c	\
 		src/manage_inhibitors/my_str_to_back_tab.c	\
-		src/manage_inhibitors/trim_spaces.c	\
+		src/manage_inhibitors/trim_spaces.c		\
+		src/manage_inhibitors/my_is_in_str.c		\
 		src/change_dir/check_access.c			\
 		src/change_dir/change_dir_cmd.c			\
 		src/change_dir/manage_pwd_var.c			\

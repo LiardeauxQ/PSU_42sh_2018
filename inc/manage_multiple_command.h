@@ -66,8 +66,9 @@ int manage_redirection(cmd_t *cmd, char ***env, int type, fildes_pipe_t *fd_pr);
 
 char	*manage_inhibitors(char *cmd);
 char	**my_str_to_backslash_tab(char *str, char *c);
-char	**my_str_to_back_tab(char *str, char c);
+char	**my_str_to_back_tab(char **tab, char *str, char c);
 void	my_free_tab(char **tab);
 char	*clean(char *str);
+int	my_is_in_str(char *str, char c);
 
 #endif /* MANAGE_MULTIPLE_COMMAND_H_ */
