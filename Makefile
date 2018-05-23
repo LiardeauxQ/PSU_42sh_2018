@@ -5,31 +5,38 @@
 ## Makefile
 ##
 
-SRC	=	src/manage_env/set_env_commande.c	\
-		src/manage_env/unset_env_commande.c	\
-		src/manage_env/manage_environment.c	\
-		src/manage_env/manage_path_var.c	\
-		src/change_dir/check_access.c	\
-		src/change_dir/change_dir_cmd.c	\
-		src/change_dir/manage_pwd_var.c	\
+SRC	=	src/manage_env/set_env_commande.c		\
+		src/manage_env/unset_env_commande.c		\
+		src/manage_env/manage_environment.c		\
+		src/manage_env/manage_path_var.c		\
+		src/manage_inhibitors/my_free_tab.c		\
+		src/manage_inhibitors/my_str_to_backslash_tab.c	\
+		src/manage_inhibitors/my_str_to_back_tab.c	\
+		src/manage_inhibitors/trim_spaces.c	\
+		src/change_dir/check_access.c			\
+		src/change_dir/change_dir_cmd.c			\
+		src/change_dir/manage_pwd_var.c			\
 		src/multiple_command/manage_fd_redirection.c	\
-		src/multiple_command/manage_pipe_char.c	\
+		src/multiple_command/manage_pipe_char.c		\
 		src/multiple_command/manage_multiple_command.c	\
 		src/multiple_command/arrow_char_redirection.c	\
-		src/multiple_command/redirection_char.c	\
+		src/multiple_command/redirection_char.c		\
+		src/manage_inhibitors/manage_inhibitor.c		\
 		src/parse_cmd_string/create_cmd_struct.c	\
 		src/parse_cmd_string/destroy_cmd_struct.c	\
-		src/parse_cmd_string/print_cmd_struct.c	\
-		src/manage_exe_commande.c	\
-		src/manage_error.c	\
-		src/check_commande.c	\
+		src/parse_cmd_string/print_cmd_struct.c		\
+		src/manage_exe_commande.c			\
+		src/manage_error.c				\
+		src/check_commande.c				\
 		src/main.c
 
 OBJ	=	$(SRC:.c=.o)
 
-CFLAGS	=	-g -I inc/ -Wall -Wextra
+CFLAGS	=	-W -Wall -Wextra -g3
 
 LDFLAGS	=	-L lib/my -lmy
+
+CPPFLAGS	= -I inc/
 
 NAME	=	42sh
 

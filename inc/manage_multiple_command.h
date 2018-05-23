@@ -11,6 +11,8 @@
 #define INPUT_REDIR_ERROR -2
 #define OUTPUT_REDIR_ERROR -3
 
+#include "minishell.h"
+
 typedef struct fildes_pipe_s {
 	int *fildes;
 	int *action_rw;
@@ -59,5 +61,13 @@ char **remove_redir_char(char **argv);
 int check_if_redirection(char **split_cmd);
 int check_redirections_char(cmd_t *cmd, int pos);
 int manage_redirection(cmd_t *cmd, char ***env, int type, fildes_pipe_t *fd_pr);
+
+/* manage_inhibitors.c */
+
+char	*manage_inhibitors(char *cmd);
+char	**my_str_to_backslash_tab(char *str, char *c);
+char	**my_str_to_back_tab(char *str, char c);
+void	my_free_tab(char **tab);
+char	*clean(char *str);
 
 #endif /* MANAGE_MULTIPLE_COMMAND_H_ */
