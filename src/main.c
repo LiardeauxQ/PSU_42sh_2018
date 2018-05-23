@@ -23,12 +23,3 @@ char *env[])
 	}
 	return ((quit == -1 || quit == 255) ? (0) : quit);
 }
-/*	while (quit != -1 && quit != 255) {
-		my_putstr("$> ");
-		buf = get_next_line(0);
-		fprintf(stdout, "%s\n", buf);
-		if (buf == NULL)
-			break;
-		quit = manage_multiple_commande(buf, &env);
-		free(buf);
-	}*/ 
