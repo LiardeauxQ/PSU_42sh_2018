@@ -27,6 +27,7 @@ char *my_revstr(char *str);
 char *my_strcpy(char *dest, const char *src);
 int my_strtoi(char *number);
 int my_strcmp(char const *s1, char const *s2);
+int my_strncmp(char const *s1, char const *s2, int n);
 char *my_strdup(char const *src);
 int my_puterror(char const *str);
 char ***create_3d_array(int size1, int size2);

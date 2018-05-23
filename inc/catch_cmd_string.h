@@ -36,4 +36,8 @@ int check_arrow_key(void);
 char getch_one_char(int fd);
 int check_special_char(stock_buffer_t *stk_buf, int cols);
 
+/* tab_completion.c */
+
+int find_cmd_completion(char *cmd, int cursor, int pos);
+
 #endif /* CATCH_CMD_STRING_H_ */
