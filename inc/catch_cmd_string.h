@@ -16,7 +16,6 @@ typedef struct stock_buffer_s {
 	char *spe_buf;
 } stock_buffer_t;
 
-
 /*read_cmd_string.c */
 
 void putchar_fd(char c, int fd);

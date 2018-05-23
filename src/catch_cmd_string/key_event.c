@@ -105,9 +105,9 @@ int check_special_char(stock_buffer_t *stk_buf, int cols)
 		stk_buf->size = stk_buf->size - 1;
 		if (my_strlen(stk_buf->buf) % cols == cols - 2)
 			print_back_line(stk_buf, cols);
-		stk_buf->buf = remove_char_in_buffer(stk_buf->buf, 
+		stk_buf->buf = remove_char_in_buffer(stk_buf->buf,
 		stk_buf->pos, 1);
-		stk_buf->spe_buf = remove_char_in_buffer(stk_buf->spe_buf, 
+		stk_buf->spe_buf = remove_char_in_buffer(stk_buf->spe_buf,
 		stk_buf->pos, 0);
 		quit = 1;
 	}

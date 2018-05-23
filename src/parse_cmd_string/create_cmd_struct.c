@@ -9,17 +9,15 @@
 
 static void add_cmd_child(char *cmd, struct cmd_s *child, struct cmd_s *parent)
 {
+	char *redir[] = {">", "<", ">>", "<<", NULL};
+
 	child->separator = 0;
 	child->cmd = my_strdup(cmd);
 	child->argv = NULL;
-	if (check_if_str_in_str(cmd, ">") != -1)
-		child->argv = my_str_to_wordtab_no_supr(cmd, ">");
-	if (check_if_str_in_str(cmd, "<") != -1)
-		child->argv = my_str_to_wordtab_no_supr(cmd, "<");
-	if (check_if_str_in_str(cmd, ">>") != -1)
-		child->argv = my_str_to_wordtab_no_supr(cmd, ">>");
-	if (check_if_str_in_str(cmd, "<<") != -1)
-		child->argv = my_str_to_wordtab_no_supr(cmd, "<<");
+	for (int i = 0 ; redir[i] != NULL ; i++) {
+		if (check_if_str_in_str(cmd, redir[i]) != -1)
+			child->argv = my_str_to_wordtab_no_supr(cmd, redir[i]);
+	}
 	if (child->argv == NULL)
 		child->argv = my_str_to_wordtab(cmd, " \t");
 	else {
