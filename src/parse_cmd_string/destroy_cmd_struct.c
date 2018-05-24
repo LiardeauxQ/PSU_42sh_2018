@@ -27,5 +27,4 @@ void destroy_cmd(cmd_t *cmd)
 	if (cmd == NULL)
 		return;
 	destroy_cmd_child(cmd);
-	//free(cmd);
 }

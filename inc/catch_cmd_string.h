@@ -21,7 +21,7 @@ typedef struct stock_buffer_s {
 void putchar_fd(char c, int fd);
 int putstr_fd(char *str, int fd);
 void print_arrow(char arrow_type);
-char *read_line_cmd(void);
+char *read_line_cmd(int fd);
 
 /* buffer_modification.c */
 

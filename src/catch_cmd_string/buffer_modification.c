@@ -30,6 +30,8 @@ int print_buffer(stock_buffer_t *stk_buf)
 		return (1);
 	}
 	clean_window_buffer(stk_buf, last_size, &j);
+	if (j < 0)
+		j = 0;
 	while (j < my_strlen(stk_buf->buf)) {
 		if (stk_buf->spe_buf[j] != -1)
 			putchar_fd(stk_buf->spe_buf[j], 0);
@@ -69,6 +71,8 @@ char *remove_char_in_buffer(char *buffer, int current_pos, int move)
 	int i = current_pos;
 	int size = my_strlen(buffer);
 
+	if (i <= 0)
+		i = 0;
 	while (i < size) {
 		buffer[i] = buffer[i + 1];
 		i = i + 1;

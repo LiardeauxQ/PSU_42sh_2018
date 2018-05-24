@@ -27,19 +27,20 @@ void print_arrow(char arrow_type)
 	putchar_fd(arrow_type, 0);
 }
 
-char *read_line_cmd(void)
+char *read_line_cmd(int fd)
 {
 	stock_buffer_t stk_buf = {0, 0, 0, NULL, NULL};
 	int spe = 0;
 	int arrow = 0;
 	int cols = 0;
 
+	keypad(NULL, true);
 	tgetent(NULL, getenv("TERM"));
 	cols = tgetnum("co") - 2;
 	while (stk_buf.c != '\n') {
 		if (arrow == 0)
 			print_buffer(&stk_buf);
-		stk_buf.c = getch_one_char(0);
+		stk_buf.c = getch_one_char(fd);
 		spe = check_special_char(&stk_buf, cols);
 		arrow = check_arrow_key_event(&stk_buf);
 		if (spe == 0 && arrow == 0) {

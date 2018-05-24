@@ -12,11 +12,12 @@ char *env[])
 {
 	char *buf = NULL;
 	int quit = 0;
+	int fd = 0;
 
 	find_cmd_completion(av[1], my_strlen(av[1]), atoi(av[2]));	
 	/*while (quit != -1 && quit != 255) {
 		my_putstr("$> ");
-		buf = read_line_cmd();
+		buf = (isatty(fd)) ? read_line_cmd(fd) : get_next_line(fd);
 		if (buf == NULL)
 			break;
 		quit = manage_multiple_commande(buf, &env);
@@ -24,12 +25,3 @@ char *env[])
 	}*/
 	return ((quit == -1 || quit == 255) ? (0) : quit);
 }
-/*	while (quit != -1 && quit != 255) {
-		my_putstr("$> ");
-		buf = get_next_line(0);
-		fprintf(stdout, "%s\n", buf);
-		if (buf == NULL)
-			break;
-		quit = manage_multiple_commande(buf, &env);
-		free(buf);
-	}*/ 
