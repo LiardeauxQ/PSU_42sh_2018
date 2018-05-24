@@ -12,10 +12,11 @@ char *env[])
 {
 	char *buf = NULL;
 	int quit = 0;
+	int fd = 0;
 
 	while (quit != -1 && quit != 255) {
 		my_putstr("$> ");
-		buf = read_line_cmd();
+		buf = (isatty(fd)) ? read_line_cmd(fd) : get_next_line(fd);
 		if (buf == NULL)
 			break;
 		quit = manage_multiple_commande(buf, &env);

@@ -11,6 +11,7 @@ char getch_one_char(int fd)
 {
 	char buf = 0;
 	struct termios ter = {0};
+	fd = fileno(stdin);
 
 	if (ioctl(fd, TCGETS, &ter) < 0)
 		perror("tcsetattr()");
