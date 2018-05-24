@@ -18,6 +18,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <dirent.h>
+#include "linked_list.h"
 
 int my_put_nbr(int nb);
 void my_putchar(char c);
@@ -32,7 +33,6 @@ char *my_strdup(char const *src);
 int my_puterror(char const *str);
 char ***create_3d_array(int size1, int size2);
 int count_3d_array(char ***array);
-void destroy_2darray(char **array);
 void destroy_3darray(char ***array);
 char *my_strcat(char *dest, char const *src);
 char *get_next_line(int fd);

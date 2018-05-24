@@ -36,9 +36,9 @@ OBJ	=	$(SRC:.c=.o)
 
 CC	=	cc
 
-CFLAGS	=	-g -I inc/ -Wall -Wextra
+CFLAGS	=	-g -I inc/ -I lib/linked_list -Wall -Wextra
 
-LDFLAGS	=	-L lib/my -lmy -lncurses
+LDFLAGS	=	-L lib/my -L lib/linked_list -llinklist -lmy -lncurses
 
 NAME	=	42sh
 
@@ -54,6 +54,7 @@ $(NAME):	$(OBJ)
 	@echo -e '${BG_COLOR}Flags: $(LDFLAGS) $(CFLAGS)${NC}'
 	@echo -e '${GREEN}Create${NC}: ${GREY}./$(NAME)${NC}'
 	@make --no-print-directory -C lib/my
+	@make --no-print-directory -C lib/linked_list
 	@$(CC) -o $(NAME) $(OBJ) $(LDFLAGS)
 
 %.o:	%.c
@@ -62,11 +63,13 @@ $(NAME):	$(OBJ)
 
 clean:
 	@make clean -C lib/my
+	@make clean -C lib/linked_list
 	@rm -f $(OBJ)
 	@echo -e '${RED}Clean${NC} : OK'
 
 fclean: clean
 	@make fclean -C lib/my
+	@make fclean -C lib/linked_list
 	@rm -f $(NAME)
 	@echo -e '${RED}Fclean${NC}: ./$(NAME) removed'
 
