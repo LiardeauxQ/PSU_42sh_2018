@@ -66,10 +66,8 @@ int analyse_cmd_struct(cmd_t *cmd, char ***env)
 {
 	int quit = 0;
 
-	for (int i = 0 ; cmd[i].separator != -1 && cmd[i].cmd != NULL ; i++) {
-		//display_cmd(cmd[i].childs)
+	for (int i = 0 ; cmd[i].separator != -1 && cmd[i].cmd != NULL ; i++)
 		quit = check_one_separator_command(&cmd[i], env);
-	}
 	return (quit);
 }
 
@@ -80,7 +78,6 @@ int manage_multiple_commande(char *str_cmd, char ***env)
 
 	if (str_cmd == NULL || check_empty_line(str_cmd) == 0 || env == NULL)
 		return (0);
-	str_cmd = manage_inhibitors(str_cmd);
 	cmd = create_cmd_struct(str_cmd);
 	if (cmd == NULL)
 		return (1);

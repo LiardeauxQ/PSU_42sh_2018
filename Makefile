@@ -19,9 +19,6 @@ SRC	=	src/manage_env/set_env_commande.c	\
 		src/manage_inhibitors/trim_spaces.c		\
 		src/manage_inhibitors/my_is_in_str.c		\
 		src/manage_inhibitors/manage_inhibitor.c		\
-		src/change_dir/check_access.c			\
-		src/change_dir/change_dir_cmd.c			\
-		src/change_dir/manage_pwd_var.c			\
 		src/multiple_command/manage_fd_redirection.c	\
 		src/multiple_command/manage_pipe_char.c		\
 		src/multiple_command/manage_multiple_command.c	\

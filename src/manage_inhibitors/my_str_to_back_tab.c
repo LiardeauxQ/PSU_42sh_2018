@@ -9,15 +9,15 @@
 
 int	check_i(char *str, int i, char c)
 {
-	if (str[i] == c && str[i - 1] != '\\')
-		++i;
+	if (str[i] == c && str[i - 1] != 92)
+		i = i + 1;
 	return (i);
 }
 
 int	check_y(char *str, char c, int y, int i)
 {
 	if (str[i] != c)
-		++y;
+		y = y + 1;
 	return (y);
 }
 
@@ -33,18 +33,20 @@ char	**my_str_to_word_array(char *str, char **arr, char c, int i)
 	int	y = 0;
 
 	for (; str[i] != '\0'; i++) {
+		printf("char %c\n", c);
 		if (str[i] == c && str[i + 1] == '\0')
 			break;
-		else if (str[i] == c && str[i - 1] != '\\') {
+		else if (str[i] == c && str[i - 1] != 92) {
+			printf("c>%c< >%c< >%c<\n", c, str[i], str[i - 1]);
 			arr[y][x] = '\0';
-			++i;
-			++y;
+			i = i + 1;
+			y = y + 1;
 			x = 0;
 			arr[y] = malloc(sizeof(char) * (my_strlen(str) + 1));
 		}
 		i = check_i(str, i, c);
 		arr[y][x] = str[i];
-		++x;
+		x = x + 1;
 	}
 	arr[y][x] = '\0';
 	y = check_y(str, c, y, i - 1);
@@ -58,8 +60,8 @@ char	**my_str_to_back_tab(char **array, char *str, char c)
 		array[0] = malloc(sizeof(char) * (my_strlen(str) + 1));
 		array[1] = NULL;
 	}
-	for (int i = 0; array[i] != '\0'; i++) {
-		if (array[i] == c) {
+	for (int i = 0; str[i] != '\0'; i++) {
+		if (str[i] == c) {
 			array = my_str_to_word_array(str, array, c, 0);
 			break;
 		} else if (str[i + 1] == '\0') {

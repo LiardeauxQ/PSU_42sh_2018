@@ -71,7 +71,8 @@ int and_condition_cmd(cmd_t *cmd, char ***env);
 
 /* manage_inhibitors.c */
 
-char *manage_inhibitors(char *cmd);
+int count_inhib(char *cmd);
+char **manage_inhibitors(char *cmd);
 char **my_str_to_backslash_tab(char *str, char *c);
 char **my_str_to_back_tab(char **array, char *str, char c);
 char *clean(char *str);

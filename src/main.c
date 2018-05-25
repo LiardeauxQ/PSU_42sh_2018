@@ -13,6 +13,7 @@ char *env[])
 	char *buf = NULL;
 	int quit = 0;
 	int fd = 0;
+	
 	int fd_hist = open(".42sh_history", O_CREAT | O_RDWR
 	| O_APPEND, 00744);
 
@@ -21,6 +22,8 @@ char *env[])
 		buf = (isatty(fd)) ? read_line_cmd(fd) : get_next_line(fd);
 		if (buf == NULL)
 			break;
+		my_putstr(buf);
+		my_putchar('\n');
 		quit = manage_multiple_commande(buf, &env);
 		stock_history(fd_hist, buf);
 		free(buf);

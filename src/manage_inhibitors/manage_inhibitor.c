@@ -66,15 +66,16 @@ char	*replace_ascii_inhib(char *cmd)
 	return (spaces_inhib(cmd));
 }
 
-char	*manage_inhibitors(char *cmd)// A CHANGER EN TYPE CHAR** LORS DE L ADAPTATION
-{// + le proto dans manage_multiple_commands.h
+char	**manage_inhibitors(char *cmd)
+{
 	char	**array = NULL;
 	char	inhib[4] = {' ', '"', '\'', '\\'};
 
-	if (count_inhib(cmd) == 0)
-		return (cmd);
-	for (int i = 0; i < 4; i++)
-		if (my_is_in_str(cmd, inhib[i]) == 1)
+	for (int i = 0; i < 4; i++) {
+		if (my_is_in_str(cmd, inhib[i]) == 1) {
 			array = my_str_to_back_tab(array, cmd, inhib[i]);
-	return (cmd);
+			break;
+		}
+	}
+	return (array);
 }

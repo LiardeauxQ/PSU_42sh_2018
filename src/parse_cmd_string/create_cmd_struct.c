@@ -18,12 +18,19 @@ static void add_cmd_child(char *cmd, struct cmd_s *child, struct cmd_s *parent)
 		if (check_if_str_in_str(cmd, redir[i]) != -1)
 			child->argv = my_str_to_wordtab_no_supr(cmd, redir[i]);
 	}
-	if (child->argv == NULL)
-		child->argv = my_str_to_wordtab(cmd, " \t");
+	if (child->argv == NULL) {
+		my_putstr("STOP\n");
+		if (count_inhib(cmd)) {
+			child->argv = manage_inhibitors(cmd);
+			for (int i = 0 ; child->argv[i] != NULL ; i++)
+				printf("%s\n", child->argv[i]);
+		} else
+			child->argv = my_str_to_wordtab(cmd, " \t");
+	}
 	else {
 		for (int j = 0 ; child->argv[j] != NULL ; j++)
 			child->argv[j] = remove_useless_char(child->argv[j],
-				" \t");
+			" \t");
 	}
 	child->redirection = check_if_redirection(child->argv);
 	child->childs = NULL;
