@@ -52,7 +52,8 @@ char **my_str_to_wordtab(char *str, char *c)
 		token = strtok_r(tmp, c, &saveptr);
 		size = size + 1;
 	}
-	array[size - 1] = NULL;
+	if (array != NULL)
+		array[size - 1] = NULL;
 	free(tmp);
 	return (array);
 }

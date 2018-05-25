@@ -67,10 +67,13 @@ int remove_last(list_t **list)
 		free(*list);
 		return (1);
 	}
-	while (tmp->next->next != NULL)
-		tmp = tmp->next;
-	free(tmp->next->data);
-	free(tmp->next);
-	tmp->next = NULL;	
+	if (tmp != NULL && tmp->next != NULL) {
+		while (tmp->next->next != NULL)
+			tmp = tmp->next;
+		free(tmp->next->data);
+		free(tmp->next);
+		tmp->next = NULL;
+	} else
+		return (1);
 	return (0);
 }

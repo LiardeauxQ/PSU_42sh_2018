@@ -28,6 +28,7 @@ char *cut_cmd(char *cmd, int cursor)
 	int i = 0;
 	int j = 0;
 
+	check_malloc(str_cut);
 	if (strlen(cmd) >= 2 && cmd[0] == '.' && cmd[1] == '/')
 		i = 2;
 	while (i < cursor) {
@@ -41,10 +42,18 @@ char *cut_cmd(char *cmd, int cursor)
 char *remove_cmd_dir_path(char *cmd)
 {
 	unsigned int delta = 0;
+	int sep = -1;
 
 	for (int i = 0 ; cmd[i] != '\0' && cmd[i] != '/' ; i++)
 		delta += 1;
+	for (int j = my_strlen(cmd) - 1 ; j > 0 && cmd[j] != ' '
+	&& cmd[j] != '\t' ; j--)
+		sep = j;
+	if (sep != -1) {
+		delta = sep;
+	}
 	if (delta != strlen(cmd))
 		cmd = cmd + delta + 1;
+	//printf("cmd %s %d\n", cmd, delta);
 	return (cmd);
 }

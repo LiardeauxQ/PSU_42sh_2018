@@ -22,6 +22,20 @@ static char *update_spe_buf_cmd(char const *buf, int cols)
 	return (spe_buf);
 }
 
+static void manage_current_dir_tab(stock_buffer_t *stk_buf, list_t *cmd_list)
+{
+	if (strncmp(stk_buf->buf, "./", 2)) {
+		free(stk_buf->buf);
+		free(stk_buf->spe_buf);
+		stk_buf->buf = strdup(cmd_list->data);
+	} else {
+		stk_buf->buf = realloc(stk_buf->buf, my_strlen(stk_buf->buf)
+		+ my_strlen(cmd_list->data) + 1);
+		stk_buf->buf = strcat(stk_buf->buf, cmd_list->data
+		+ (strlen(stk_buf->buf) - 2));
+	}
+}
+
 static void update_buf_cmd_if_tab(stock_buffer_t *stk_buf, int cols, int size)
 {
 	list_t *cmd_list = NULL;
@@ -35,9 +49,7 @@ static void update_buf_cmd_if_tab(stock_buffer_t *stk_buf, int cols, int size)
 		my_putstr("\n$> ");
 		putstr_fd(stk_buf->buf, 0);
 	} else if (list_size == 1) {
-		free(stk_buf->buf);
-		free(stk_buf->spe_buf);
-		stk_buf->buf = strdup(cmd_list->data);
+		manage_current_dir_tab(stk_buf, cmd_list);		
 		stk_buf->spe_buf = update_spe_buf_cmd(stk_buf->buf, cols);
 		stk_buf->size = strlen(stk_buf->buf);
 		stk_buf->pos = stk_buf->size;
@@ -50,9 +62,12 @@ int check_tab_key(stock_buffer_t *stk_buf, int cols)
 	char **split_cmd = NULL;
 	int size = 0;
 
+	if (stk_buf->buf == NULL)
+		return (0);
 	if (my_strlen(stk_buf->buf) != 0) {
 		split_cmd = my_str_to_wordtab(stk_buf->buf, " \t");
 		size = count_2d_array(split_cmd);
+		destroy_2darray(split_cmd);
 	}
 	if (stk_buf->c == '\t') {
 		update_buf_cmd_if_tab(stk_buf, cols, size);

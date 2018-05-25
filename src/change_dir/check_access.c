@@ -25,6 +25,8 @@ static int check_access(char **split_path, char *cmd_name)
 		if (status != -1)
 			break;
 	}
+	if (alrd_path == 0)
+		destroy_2darray(split_path);
 	return (status);
 }
 
@@ -41,7 +43,6 @@ int check_if_is_cmd(char *env[], char *cmd_name)
 	status = check_access(split_path, cmd_name);
 	if (status == -1)
 		manage_cmd_not_found(cmd_name);
-	destroy_2darray(split_path);
 	return ((status >= 0) ? 1 : -1);
 }
 

@@ -86,22 +86,21 @@ void print_tab_command(list_t *list, int term_size)
 
 list_t *find_cmd_completion(char *cmd, int cursor, int pos)
 {
-	char *tmp_str = NULL;
+	char *tmp_str = 0x0;
 	char *path = getenv("PATH");
 	char *pwd = getenv("PWD");
 	char **split_path = my_str_to_wordtab(path, ":");
 	list_t *cmd_list = 0x0;
 
 	tmp_str = cut_cmd(cmd, cursor);
-	if (pos == 0 && strcmp(tmp_str, "./") != 0) {
-		for (int j = 0 ; split_path[j] != NULL ; j++)
+	if (pos == 0 && my_strcmp(cmd, "./") == 0) {
+		for (int j = 0 ; split_path[j] != 0x0 ; j++)
 			cmd_list = add_cmd_to_list(split_path[j],
 			tmp_str, cmd_list);
-		putstr_fd(pwd, 0);
 	}
 	pwd = add_dir_to_path(pwd, tmp_str);
 	tmp_str = remove_cmd_dir_path(tmp_str);
-	if ((cmd_list = add_cmd_to_list(pwd, tmp_str, cmd_list)) == NULL)
+	if ((cmd_list = add_cmd_to_list(pwd, tmp_str, cmd_list)) == 0x0)
 		return (cmd_list);
 	free(pwd);
 	return (cmd_list);
