@@ -80,10 +80,10 @@ int manage_multiple_commande(char *str_cmd, char ***env)
 
 	if (str_cmd == NULL || check_empty_line(str_cmd) == 0 || env == NULL)
 		return (0);
+	str_cmd = manage_inhibitors(str_cmd);
 	cmd = create_cmd_struct(str_cmd);
 	if (cmd == NULL)
 		return (1);
-	//display_cmd(cmd);
 	quit = analyse_cmd_struct(cmd, env);
 	quit = print_redirection_error(quit);
 	destroy_cmd(cmd);
