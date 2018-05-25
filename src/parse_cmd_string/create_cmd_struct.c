@@ -19,11 +19,8 @@ static void add_cmd_child(char *cmd, struct cmd_s *child, struct cmd_s *parent)
 			child->argv = my_str_to_wordtab_no_supr(cmd, redir[i]);
 	}
 	if (child->argv == NULL) {
-		my_putstr("STOP\n");
 		if (count_inhib(cmd)) {
 			child->argv = manage_inhibitors(cmd);
-			for (int i = 0 ; child->argv[i] != NULL ; i++)
-				printf("%s\n", child->argv[i]);
 		} else
 			child->argv = my_str_to_wordtab(cmd, " \t");
 	}

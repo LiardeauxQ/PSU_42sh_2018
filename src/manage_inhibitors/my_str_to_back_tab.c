@@ -33,11 +33,9 @@ char	**my_str_to_word_array(char *str, char **arr, char c, int i)
 	int	y = 0;
 
 	for (; str[i] != '\0'; i++) {
-		printf("char %c\n", c);
 		if (str[i] == c && str[i + 1] == '\0')
 			break;
 		else if (str[i] == c && str[i - 1] != 92) {
-			printf("c>%c< >%c< >%c<\n", c, str[i], str[i - 1]);
 			arr[y][x] = '\0';
 			i = i + 1;
 			y = y + 1;
