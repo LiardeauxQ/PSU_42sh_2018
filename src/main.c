@@ -25,7 +25,8 @@ char *env[])
 		stock_history(fd_hist, buf);
 		free(buf);
 	}
-	destroy_list_alias(shell.alias);
+	if (shell.alias != NULL)
+		destroy_list_alias(shell.alias);
 	close(fd_hist);
 	return ((quit == -1 || quit == 255) ? (0) : quit);
 }
