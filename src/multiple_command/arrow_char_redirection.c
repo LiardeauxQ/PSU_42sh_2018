@@ -7,13 +7,13 @@
 
 #include "minishell.h"
 
-int simple_left_arrow(char ***env, cmd_t *cmd, char *filename,
+int simple_left_arrow(shell_t *shell, cmd_t *cmd, char *filename,
 	fildes_pipe_t *fd_pr)
 {
 	int fd = 0;
 	int status = 0;
 
-	if (env == NULL || cmd == NULL || filename == NULL)
+	if (shell->env == NULL || cmd == NULL || filename == NULL)
 		return (-1);
 	choose_dup_fd(fd_pr);
 	if ((fd = open(filename, O_RDONLY)) == -1) {
@@ -24,19 +24,19 @@ int simple_left_arrow(char ***env, cmd_t *cmd, char *filename,
 	if (dup2(fd, 0) == 1)
 		return (-1);
 	cmd->argv = remove_redir_char(cmd->argv);
-	status = check_one_command(cmd, env);
+	status = check_one_command(cmd, shell);
 	close(fd);
 	return (status);
 }
 
-int simple_right_arrow(char ***env, cmd_t *cmd, char *filename,
+int simple_right_arrow(shell_t *shell, cmd_t *cmd, char *filename,
 	fildes_pipe_t *fd_pr)
 {
 	mode_t mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 	int fd = 0;
 	int status = 0;
 
-	if (env == NULL || cmd == NULL || filename == NULL)
+	if (shell->env == NULL || cmd == NULL || filename == NULL)
 		return (-1);
 	choose_dup_fd(fd_pr);
 	if ((fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, mode)) == -1) {
@@ -47,7 +47,7 @@ int simple_right_arrow(char ***env, cmd_t *cmd, char *filename,
 	if (dup2(fd, 1) == -1)
 		return (-1);
 	cmd->argv = remove_redir_char(cmd->argv);
-	status = check_one_command(cmd, env);
+	status = check_one_command(cmd, shell);
 	close(fd);
 	return (status);
 }
@@ -72,13 +72,13 @@ static void write_double_left_arrow(char *end_str, int *fds)
 	}
 }
 
-int double_left_arrow(char ***env, cmd_t *cmd, char *end_str,
+int double_left_arrow(shell_t *shell, cmd_t *cmd, char *end_str,
 	fildes_pipe_t *fd_pr)
 {
 	int fds[2] = {0, 0};
 	int status = 0;
 
-	if (env == NULL || cmd == NULL || end_str == NULL)
+	if (shell->env == NULL || cmd == NULL || end_str == NULL)
 		return (-1);
 	choose_dup_fd(fd_pr);
 	if (pipe(fds) == -1)
@@ -88,18 +88,18 @@ int double_left_arrow(char ***env, cmd_t *cmd, char *end_str,
 		return (-1);
 	close(fds[1]);
 	cmd->argv = remove_redir_char(cmd->argv);
-	status = check_one_command(cmd, env);
+	status = check_one_command(cmd, shell);
 	close(fds[0]);
 	return (status);
 }
 
-int double_right_arrow(char ***env, cmd_t *cmd, char *filename,
+int double_right_arrow(shell_t *shell, cmd_t *cmd, char *filename,
 	fildes_pipe_t *fd_pr)
 {
 	int fd = 0;
 	int status = 0;
 
-	if (env == NULL || cmd == NULL || filename == NULL)
+	if (shell->env == NULL || cmd == NULL || filename == NULL)
 		return (-1);
 	choose_dup_fd(fd_pr);
 	if ((fd = open(filename, O_RDWR | O_APPEND)) == -1) {
@@ -110,7 +110,7 @@ int double_right_arrow(char ***env, cmd_t *cmd, char *filename,
 	if (dup2(fd, 1) == -1)
 		return (-1);
 	cmd->argv = remove_redir_char(cmd->argv);
-	status = check_one_command(cmd, env);
+	status = check_one_command(cmd, shell);
 	close(fd);
 	return (status);
 }

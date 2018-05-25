@@ -7,24 +7,28 @@
 
 #include "minishell.h"
 
-static int manage_builtin_cmd(char ***env, cmd_t *cmd, int size)
+static int manage_builtin_cmd(shell_t *shell, cmd_t *cmd, int size)
 {
-	if (env == NULL || cmd->argv == NULL)
+	if (shell->env == NULL || cmd->argv == NULL)
 		return (-2);
 	if (my_strcmp(cmd->argv[0], "env")) {
-		display_env_var(*env);
+		display_env_var(shell->env);
 		return (0);
-	} else if (my_strcmp(cmd->argv[0], "setenv"))
-		return (set_environment_cmd(env, cmd->argv, size));
-	if (my_strcmp(cmd->argv[0], "echo")) {
-		return (execute_echo_command(cmd));
 	}
+	if (my_strcmp(cmd->argv[0], "setenv"))
+		return (set_environment_cmd(&shell->env, cmd->argv, size));
+	if (my_strcmp(cmd->argv[0], "echo"))
+		return (execute_echo_command(cmd));
 	if (my_strcmp(cmd->argv[0], "unsetenv"))
-		return (unset_env_commande(env, cmd->argv));
-	else if (my_strcmp(cmd->argv[0], "cd"))
-		return (change_dir_cmd(env, cmd->argv));
+		return (unset_env_commande(&shell->env, cmd->argv));
+	if (my_strcmp(cmd->argv[0], "cd"))
+		return (change_dir_cmd(&shell->env, cmd->argv));
 	if (my_strcmp(cmd->argv[0], "history"))
-		return (manage_history_command(env, cmd->argv));
+		return (manage_history_command(&shell->env, cmd->argv));
+	if (my_strcmp(cmd->argv[0], "alias"))
+		return (my_alias(shell->alias, cmd->argv[1]));
+	if (my_strcmp(cmd->argv[0], "unalias"))
+		return (my_unalias(shell->alias, cmd->argv[1]));
 	return (-1);
 }
 
@@ -74,16 +78,16 @@ static int execute_command(char **argv, char ***env)
 	return (status);
 }
 
-int check_one_command(cmd_t *cmd, char ***env)
+int check_one_command(cmd_t *cmd, shell_t *shell)
 {
 	int size = my_strlen(cmd->cmd);
 	int status = 0;
 
-	if (cmd->cmd == NULL || cmd->argv == NULL || env == NULL)
+	if (cmd->cmd == NULL || cmd->argv == NULL || shell->env == NULL)
 		return (-1);
 	if (size == 0)
 		return (0);
-	if ((status = manage_builtin_cmd(env, cmd, size)) == -1)
-		status = execute_command(cmd->argv, env);
+	if ((status = manage_builtin_cmd(shell, cmd, size)) == -1)
+		status = execute_command(cmd->argv, &shell->env);
 	return (status);
 }

@@ -52,7 +52,7 @@ char **remove_redir_char(char **argv)
 
 redir redir_init(void)
 {
-	int (*(*redirection))(char ***, cmd_t *, char *, fildes_pipe_t *);
+	int (*(*redirection))(shell_t *, cmd_t *, char *, fildes_pipe_t *);
 
 	redirection = malloc(4 * sizeof(redirection));
 	check_malloc(redirection);
@@ -63,20 +63,21 @@ redir redir_init(void)
 	return (redirection);
 }
 
-int manage_redirection(cmd_t *cmd, char ***env, int type, fildes_pipe_t *fd_pr)
+int manage_redirection(cmd_t *cmd, shell_t *shell, int type,
+fildes_pipe_t *fd_pr)
 {
 	int size = count_2d_array(cmd->argv);
-	int (**redir)(char ***, cmd_t *, char *, fildes_pipe_t *) =
+	int (**redir)(shell_t *, cmd_t *, char *, fildes_pipe_t *) = 
 	redir_init();
 	int quit = 0;
 	int wstatus = 0;
 	int pid = 0;
 
-	if (cmd == NULL || env == NULL)
+	if (cmd == NULL || shell->env == NULL)
 		return (0);
 	if ((pid = fork()) == 0) {
 		if (type != 0)
-			quit = redir[type - 1](env, cmd, cmd->argv[size - 1],
+			quit = redir[type - 1](shell, cmd, cmd->argv[size - 1],
 				fd_pr);
 		exit(quit);
 	} else if (pid > 0) {

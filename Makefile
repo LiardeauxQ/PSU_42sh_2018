@@ -26,6 +26,9 @@ SRC	=	src/manage_env/set_env_commande.c	\
 		src/catch_cmd_string/key_event.c	\
 		src/catch_cmd_string/buffer_modification.c	\
 		src/catch_cmd_string/read_cmd_string.c	\
+		src/aliase/init_list_alias.c	\
+		src/aliase/manage_aliase.c	\
+		src/aliase/utils_aliase.c	\
 		src/manage_exe_commande.c	\
 		src/manage_error.c	\
 		src/check_commande.c	\
