@@ -32,14 +32,14 @@ int list_length(list_alias_t *list_alias)
 	return (size);
 }
 
-void print_list(list_alias_t *list_alias)
+void print_alias(list_alias_t *list_alias)
 {
 	if (is_empty_list(list_alias)) {
 		printf("empty list\n");
 		return;
 	}
 	while (list_alias != NULL) {
-		printf("\n%s : %s\n\n", list_alias->cmd, list_alias->new_cmd);
+		printf("%s : %s\n", list_alias->cmd, list_alias->new_cmd);
 		list_alias = list_alias->next;
 	}
 }
