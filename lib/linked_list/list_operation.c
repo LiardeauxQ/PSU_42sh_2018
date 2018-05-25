@@ -14,6 +14,8 @@ int append(list_t *list, char *value)
 	while (tmp->next != NULL)
 		tmp = tmp->next;
 	tmp->next = malloc(sizeof(list_t));
+	if (tmp->next == NULL)
+		return (-1);
 	tmp->next->data = strdup(value);
 	tmp->next->next = NULL;
 	return (0);
@@ -24,20 +26,11 @@ int push(list_t **list, char *value)
 	list_t *new = NULL;
 
 	new = malloc(sizeof(list_t));
+	if (new == NULL)
+		return (-1);
 	new->data = strdup(value);
 	new->next = *list;
 	*list = new;
-	return (0);
-}
-
-int print_list(list_t *list)
-{
-	list_t *tmp = list;
-
-	while (tmp != NULL) {
-		puts(tmp->data);
-		tmp = tmp->next;
-	}
 	return (0);
 }
 
@@ -69,7 +62,7 @@ int remove_last(list_t **list)
 {
 	list_t *tmp = *list;
 
-	if ((*list)->next == NULL) {
+	if (*list != NULL && (*list)->next == NULL) {
 		free((*list)->data);
 		free(*list);
 		return (1);
@@ -80,9 +73,4 @@ int remove_last(list_t **list)
 	free(tmp->next);
 	tmp->next = NULL;	
 	return (0);
-}
-
-void destroy_list(list_t *list)
-{
-	while (remove_last(&list) != 1);
 }

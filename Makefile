@@ -26,7 +26,10 @@ SRC	=	src/manage_env/set_env_commande.c	\
 		src/catch_cmd_string/key_event.c	\
 		src/catch_cmd_string/buffer_modification.c	\
 		src/catch_cmd_string/read_cmd_string.c	\
+		src/catch_cmd_string/cmd_operation.c	\
+		src/catch_cmd_string/order_cmd_list.c	\
 		src/catch_cmd_string/tab_completion.c	\
+		src/catch_cmd_string/tab_key_management.c	\
 		src/manage_exe_commande.c	\
 		src/manage_error.c	\
 		src/check_commande.c	\

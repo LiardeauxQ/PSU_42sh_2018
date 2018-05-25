@@ -15,6 +15,7 @@
 #include <curses.h>
 #include <term.h>
 #include <dirent.h>
+#include "my.h"
 #include "manage_environment.h"
 #include "change_directorie_cmd.h"
 #include "manage_error.h"
@@ -22,7 +23,6 @@
 #include "manage_multiple_command.h"
 #include "echo_command.h"
 #include "catch_cmd_string.h"
-#include "my.h"
 
 /* check_commande.c */
 

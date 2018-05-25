@@ -5,7 +5,10 @@
 ## Makefile
 ##
 
-SRCLIB	=	list_operation.c
+SRCLIB	=	list_operation.c	\
+		print_list.c	\
+		count_list_size.c	\
+		destroy_list.c
 
 OBJLIB	=	$(SRCLIB:.c=.o)
 

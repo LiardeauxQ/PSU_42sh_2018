@@ -7,8 +7,15 @@
 
 #include "minishell.h"
 
-static void clean_window_buffer(stock_buffer_t *stk_buf, int last_size, int *j)
+static int clean_window_buffer(stock_buffer_t *stk_buf, int *j)
 {
+	static int last_size = 0;
+
+	if (stk_buf->buf == NULL) {
+		last_size = 0;
+		*j = 0;
+		return (1);
+	}
 	if (stk_buf->pos == stk_buf->size) {
 		for (int i = 0 ; i < last_size
 		- my_strlen(stk_buf->buf) ; i++) {
@@ -17,19 +24,16 @@ static void clean_window_buffer(stock_buffer_t *stk_buf, int last_size, int *j)
 		}
 	} else
 		*j = stk_buf->pos - 1;
+	last_size = my_strlen(stk_buf->buf);
+	return (0);
 }
 
 int print_buffer(stock_buffer_t *stk_buf)
 {
-	static int last_size = 0;
 	static int j = 0;
 
-	if (stk_buf->buf == NULL) {
-		last_size = 0;
-		j = 0;
+	if (clean_window_buffer(stk_buf, &j))
 		return (1);
-	}
-	clean_window_buffer(stk_buf, last_size, &j);
 	if (j < 0)
 		j = 0;
 	while (j < my_strlen(stk_buf->buf)) {
@@ -40,7 +44,6 @@ int print_buffer(stock_buffer_t *stk_buf)
 	}
 	for (int a = 0 ; a < stk_buf->size - stk_buf->pos ; a++)
 		print_arrow(68);
-	last_size = my_strlen(stk_buf->buf);
 	return (0);
 }
 

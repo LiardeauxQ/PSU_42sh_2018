@@ -36,8 +36,26 @@ int check_arrow_key(void);
 char getch_one_char(int fd);
 int check_special_char(stock_buffer_t *stk_buf, int cols);
 
+/* cmd_operation.c */
+
+list_t *add_cmd_to_list(char const *dirname, char const *cmd, list_t *cmd_list);
+char *cut_cmd(char *cmd, int cursor);
+char *remove_cmd_dir_path(char *cmd);
+
+/* order_cmd_list.c */
+
+list_t *order_list(list_t *cmd_list);
+int compare_str_alpha(list_t *list);
+
 /* tab_completion.c */
 
-int find_cmd_completion(char *cmd, int cursor, int pos);
+list_t *open_dir_for_comparaison(char const *dirname, char const *str);
+int check_cmd_already_in(list_t *cmd_list, char const *cmd);
+void print_tab_command(list_t *list, int term_size);
+list_t *find_cmd_completion(char *cmd, int cursor, int pos);
+
+/* tab_key_management.c */
+
+int check_tab_key(stock_buffer_t *stk_buf, int cols);
 
 #endif /* CATCH_CMD_STRING_H_ */

@@ -100,7 +100,7 @@ int check_special_char(stock_buffer_t *stk_buf, int cols)
 	if (stk_buf->c == 4)
 		quit = 2;
 	if (stk_buf->pos + 3 <= 3 && stk_buf->c >= 127) {
-		quit = 3;
+		quit = 3;	
 	} else if (stk_buf->c == 127) {
 		stk_buf->pos = stk_buf->pos - 1;
 		stk_buf->size = stk_buf->size - 1;
@@ -111,5 +111,7 @@ int check_special_char(stock_buffer_t *stk_buf, int cols)
 		stk_buf->spe_buf[stk_buf->pos] = '\0';
 		quit = 1;
 	}
+	if (check_tab_key(stk_buf, cols))
+		quit = 1;
 	return (quit);
 }

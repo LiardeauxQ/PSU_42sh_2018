@@ -34,7 +34,6 @@ char *read_line_cmd(int fd)
 	int arrow = 0;
 	int cols = 0;
 
-	keypad(NULL, true);
 	tgetent(NULL, getenv("TERM"));
 	cols = tgetnum("co") - 2;
 	while (stk_buf.c != '\n') {

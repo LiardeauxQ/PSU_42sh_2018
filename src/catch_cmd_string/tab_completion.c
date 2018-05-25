@@ -37,48 +37,6 @@ int check_cmd_already_in(list_t *cmd_list, char const *cmd)
 	return (already_in);
 }
 
-list_t *add_cmd_to_array(char const *dirname, char const *cmd, list_t *cmd_list)
-{
-	list_t *list = 0x0;
-
-	list = open_dir_for_comparaison(dirname, cmd);
-	if (list == 0x0)
-		return (cmd_list);
-	for (list_t *tmp = list ; tmp != 0x0 ; tmp = tmp->next) {
-		if (check_cmd_already_in(cmd_list, tmp->data) == 0)
-			push(&cmd_list, tmp->data);
-	}
-	destroy_list(list);
-	return (cmd_list);
-}
-
-char *cut_cmd(char *cmd, int cursor)
-{
-	char *str_cut = malloc((cursor + 1) * sizeof(char));
-	int i = 0;
-	int j = 0;
-
-	if (strlen(cmd) >= 2 && cmd[0] == '.' && cmd[1] == '/')
-		i = 2;
-	while (i < cursor) {
-		str_cut[j] = cmd[i++];
-		j = j + 1;
-	}
-	str_cut[j] = '\0';
-	return (str_cut);
-}
-
-char *remove_cmd_dir_path(char *cmd)
-{
-	unsigned int delta = 0;
-
-	for (int i = 0 ; cmd[i] != '\0' && cmd[i] != '/' ; i++)
-		delta += 1;
-	if (delta != strlen(cmd))
-		cmd = cmd + delta + 1;
-	return (cmd);
-}
-
 char *add_dir_to_path(char *pwd, char *cmd)
 {
 	int j = 0;
@@ -99,34 +57,6 @@ char *add_dir_to_path(char *pwd, char *cmd)
 	}
 	new_pwd[j] = '\0';
 	return (new_pwd);
-}
-
-int compare_str_alpha(list_t *list)
-{
-	for (int i = 0 ; list->data[i] != '\0'
-	&& list->next->data[i] != '\0' ; i++) {
-		if (list->data[i] > list->next->data[i])
-			return (1);
-	}
-	return (0);
-}
-
-list_t *order_array(list_t *cmd_list)
-{
-	int order = 0;
-
-	if (cmd_list == NULL)
-		return (NULL);
-	for (list_t *tmp = cmd_list ; tmp->next != NULL ; tmp = tmp->next) {
-		if (compare_str_alpha(tmp))
-			swap(&tmp, &tmp->next);
-	}
-	for (list_t *tmp = cmd_list ; tmp->next != NULL ; tmp = tmp->next)
-		if (compare_str_alpha(tmp))
-			order = 1;
-	if (order == 1)
-		return (order_array(cmd_list));
-	return (cmd_list);
 }
 
 void print_tab_command(list_t *list, int term_size)
@@ -154,7 +84,7 @@ void print_tab_command(list_t *list, int term_size)
 	}
 }
 
-int find_cmd_completion(char *cmd, int cursor, int pos)
+list_t *find_cmd_completion(char *cmd, int cursor, int pos)
 {
 	char *tmp_str = NULL;
 	char *path = getenv("PATH");
@@ -165,16 +95,13 @@ int find_cmd_completion(char *cmd, int cursor, int pos)
 	tmp_str = cut_cmd(cmd, cursor);
 	if (pos == 0) {
 		for (int j = 0 ; split_path[j] != NULL ; j++)
-			cmd_list = add_cmd_to_array(split_path[j],
+			cmd_list = add_cmd_to_list(split_path[j],
 			tmp_str, cmd_list);
 	}
 	pwd = add_dir_to_path(pwd, tmp_str);
 	tmp_str = remove_cmd_dir_path(tmp_str);
-	if ((cmd_list = add_cmd_to_array(pwd, tmp_str, cmd_list)) == NULL)
-		return (0);
-	print_tab_command(cmd_list, 200);
-	destroy_list(cmd_list);
-	my_putchar('\n');
+	if ((cmd_list = add_cmd_to_list(pwd, tmp_str, cmd_list)) == NULL)
+		return (cmd_list);
 	free(pwd);
-	return (0);
+	return (cmd_list);
 }
