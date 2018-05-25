@@ -113,18 +113,14 @@ int compare_str_alpha(list_t *list)
 
 list_t *order_array(list_t *cmd_list)
 {
-	list_t *stock = NULL;
 	int order = 0;
 
 	if (cmd_list == NULL)
-		return;
+		return (NULL);
 	for (list_t *tmp = cmd_list ; tmp->next != NULL ; tmp = tmp->next) {
 		if (compare_str_alpha(tmp))
 			swap(&tmp, &tmp->next);
 	}
-	my_putchar('\n');
-	print_list(cmd_list);
-	my_putchar('\n');
 	for (list_t *tmp = cmd_list ; tmp->next != NULL ; tmp = tmp->next)
 		if (compare_str_alpha(tmp))
 			order = 1;
@@ -133,27 +129,27 @@ list_t *order_array(list_t *cmd_list)
 	return (cmd_list);
 }
 
-void print_tab_command(char **tab_cmd, int term_size)
+void print_tab_command(list_t *list, int term_size)
 {
 	int size = 0;
 	int tmp_size = 0;
 	int nb_cmd = 0;
 	int cmd = -1;
 
-	for (int i = 0 ; tab_cmd[i] != NULL ; i++) {
-		tmp_size = strlen(tab_cmd[i]);
+	for (list_t *tmp = list ; tmp != NULL ; tmp = tmp->next) {
+		tmp_size = strlen(tmp->data);
 		if (tmp_size > size)
-			size = tmp_size;	
+			size = tmp_size;
 	}
 	nb_cmd = (int)(term_size / size);
-	for (int j = 0 ; tab_cmd[j] != NULL ; j++) {
+	for (list_t *tmp = list ; tmp != NULL ; tmp = tmp->next) {
 		cmd++;
 		if (cmd == nb_cmd) {
 			my_putchar('\n');
 			cmd = 0;
 		}
-		my_putstr(tab_cmd[j]);
-		for (int k = 0 ; k < (size - strlen(tab_cmd[j]) + 1) ; k++)
+		my_putstr(tmp->data);
+		for (int k = 0 ; k < (size - strlen(tmp->data) + 1) ; k++)
 			my_putchar(' ');
 	}
 }
@@ -165,8 +161,6 @@ int find_cmd_completion(char *cmd, int cursor, int pos)
 	char *pwd = getenv("PWD");
 	char **split_path = my_str_to_wordtab(path, ":");
 	list_t *cmd_list = 0x0;
-	char *tab1[] = {"ls", "lsg", "lsc", "lsb", "lsa", NULL};
-	int size = 0;
 
 	tmp_str = cut_cmd(cmd, cursor);
 	if (pos == 0) {
@@ -176,11 +170,9 @@ int find_cmd_completion(char *cmd, int cursor, int pos)
 	}
 	pwd = add_dir_to_path(pwd, tmp_str);
 	tmp_str = remove_cmd_dir_path(tmp_str);
-	cmd_list = add_cmd_to_array(pwd, tmp_str, cmd_list);
-	if (cmd_list == NULL)
+	if ((cmd_list = add_cmd_to_array(pwd, tmp_str, cmd_list)) == NULL)
 		return (0);
-	//print_tab_command(tab1, 200);
-	print_list(cmd_list);
+	print_tab_command(cmd_list, 200);
 	destroy_list(cmd_list);
 	my_putchar('\n');
 	free(pwd);
