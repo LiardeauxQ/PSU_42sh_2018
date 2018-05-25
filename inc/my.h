@@ -18,7 +18,9 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <dirent.h>
+#include <sys/stat.h>
 
+char *int_tostr(int n);
 int my_put_nbr(int nb);
 void my_putchar(char c);
 int my_putstr(char const *str);
@@ -26,6 +28,7 @@ int my_strlen(char const *str);
 char *my_revstr(char *str);
 char *my_strcpy(char *dest, const char *src);
 int my_strtoi(char *number);
+int my_strtoi_error(char *number);
 int my_strcmp(char const *s1, char const *s2);
 char *my_strdup(char const *src);
 int my_puterror(char const *str);

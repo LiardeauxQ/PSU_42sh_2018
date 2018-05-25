@@ -15,6 +15,7 @@
 #include <curses.h>
 #include <term.h>
 #include <dirent.h>
+#include <time.h>
 #include "manage_environment.h"
 #include "change_directorie_cmd.h"
 #include "manage_error.h"
@@ -28,5 +29,11 @@
 
 int check_exe_signal(int wstatus);
 int check_one_command(cmd_t *cmd, char ***env);
+
+/* manage_history.c */
+
+void stock_history(int fd, char *buf);
+int manage_history_command(char ***env, char **argv);
+void display_history_count(int number);
 
 #endif /* MINISHELL_H_ */

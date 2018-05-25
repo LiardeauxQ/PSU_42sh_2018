@@ -15,6 +15,7 @@ SRCLIB	=	my_putchar.c	\
 		my_strcmp.c	\
 		my_strdup.c	\
 		my_strcat.c	\
+		my_int_tostr.c	\
 		manage_2darray.c	\
 		manage_3d_array.c	\
 		get_next_line.c	\
