@@ -38,16 +38,17 @@ list_alias_t *my_alias(list_alias_t *list_alias, char *cmd)
 
 char *replace_alias(list_alias_t *list_alias, char *cmd)
 {
-	if (is_empty_list(list_alias)) {
-		printf("empty list\n");
-		return (NULL);
-	}
+	if (is_empty_list(list_alias))
+		return (cmd);
 	while (list_alias != NULL) {
-		if (my_strcmp(list_alias->cmd, cmd))
-			return (list_alias->new_cmd);
+		if (my_strcmp(list_alias->new_cmd, cmd)) {
+			free(cmd);
+			cmd = strdup(list_alias->cmd);
+			return (cmd);
+		}
 		list_alias = list_alias->next;
 	}
-	return (NULL);
+	return (cmd);
 }
 
 char *is_unalias(list_alias_t *list_alias, char *cmd)

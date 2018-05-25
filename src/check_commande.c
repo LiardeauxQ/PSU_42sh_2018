@@ -89,6 +89,7 @@ int check_one_command(cmd_t *cmd, shell_t *shell)
 
 	if (cmd->cmd == NULL || cmd->argv == NULL || shell->env == NULL)
 		return (-1);
+	cmd->argv[0] = replace_alias(shell->alias, cmd->argv[0]);	
 	if (size == 0)
 		return (0);
 	if ((status = manage_builtin_cmd(shell, cmd, size)) == -1)
