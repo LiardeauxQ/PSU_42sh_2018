@@ -27,7 +27,7 @@ void display_history(void)
 	close(fd);
 }
 
-int manage_history_command(char ***env, char **argv)
+int manage_history_command(char **argv)
 {
 	int nb_arg = count_2d_array(argv);
 	int i = 0;

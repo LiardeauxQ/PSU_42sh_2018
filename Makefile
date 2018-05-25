@@ -14,8 +14,13 @@ SRC	=	src/manage_env/set_env_commande.c	\
 		src/change_dir/manage_pwd_var.c	\
 		src/echo_command/manage_quote_cmd.c	\
 		src/echo_command/recup_echo_argument.c	\
+		src/manage_inhibitors/my_str_to_backslash_tab.c	\
+		src/manage_inhibitors/my_str_to_back_tab.c	\
+		src/manage_inhibitors/trim_spaces.c		\
+		src/manage_inhibitors/my_is_in_str.c		\
+		src/manage_inhibitors/manage_inhibitor.c		\
 		src/multiple_command/manage_fd_redirection.c	\
-		src/multiple_command/manage_pipe_char.c	\
+		src/multiple_command/manage_pipe_char.c		\
 		src/multiple_command/manage_multiple_command.c	\
 		src/multiple_command/arrow_char_redirection.c	\
 		src/multiple_command/redirection_char.c	\
@@ -43,6 +48,8 @@ CC	=	cc
 CFLAGS	=	-g -I inc/ -Wall -Wextra
 
 LDFLAGS	=	-L lib/my -lmy -lncurses
+
+CPPFLAGS	= -I inc/
 
 NAME	=	42sh
 

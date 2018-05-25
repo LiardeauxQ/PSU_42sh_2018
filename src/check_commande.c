@@ -24,7 +24,7 @@ static int manage_builtin_cmd(shell_t *shell, cmd_t *cmd, int size)
 	if (my_strcmp(cmd->argv[0], "cd"))
 		return (change_dir_cmd(&shell->env, cmd->argv));
 	if (my_strcmp(cmd->argv[0], "history"))
-		return (manage_history_command(&shell->env, cmd->argv));
+		return (manage_history_command(cmd->argv));
 	if (my_strcmp(cmd->argv[0], "alias")) {
 		shell->alias = my_alias(shell->alias, cmd->argv);
 		return (0);
