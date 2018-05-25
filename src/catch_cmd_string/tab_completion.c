@@ -93,10 +93,11 @@ list_t *find_cmd_completion(char *cmd, int cursor, int pos)
 	list_t *cmd_list = 0x0;
 
 	tmp_str = cut_cmd(cmd, cursor);
-	if (pos == 0) {
+	if (pos == 0 && strcmp(tmp_str, "./") != 0) {
 		for (int j = 0 ; split_path[j] != NULL ; j++)
 			cmd_list = add_cmd_to_list(split_path[j],
 			tmp_str, cmd_list);
+		putstr_fd(pwd, 0);
 	}
 	pwd = add_dir_to_path(pwd, tmp_str);
 	tmp_str = remove_cmd_dir_path(tmp_str);
