@@ -22,9 +22,11 @@ char *env[])
 		if (buf == NULL)
 			break;
 		quit = manage_multiple_commande(buf, &shell);
+		print_list(shell.alias);
 		stock_history(fd_hist, buf);
 		free(buf);
 	}
+	destroy_list_alias(shell.alias);
 	close(fd_hist);
 	return ((quit == -1 || quit == 255) ? (0) : quit);
 }

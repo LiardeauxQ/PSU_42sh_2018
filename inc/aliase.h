@@ -16,14 +16,16 @@ typedef struct list_alias_s {
 
 /*bacis alias and unalias command*/
 
-int my_alias(list_alias_t *list_alias, char *cmd);
-int my_unalias(list_alias_t *list_alias, char *cmd);
+list_alias_t *my_alias(list_alias_t *list_alias, char *cmd);
+list_alias_t *my_unalias(list_alias_t *list_alias, char *cmd);
 
 /*utility unctions*/
 
 int count_str_size(char *str, int i);
 int count_equal(char *str);
 char *new_str(char *cmd, int size, char *new_cmd);
+void destroy_list_alias(list_alias_t *list_alias);
+int remove_last_alias(list_alias_t **list_alias);
 
 /*manage alias chained list*/
 

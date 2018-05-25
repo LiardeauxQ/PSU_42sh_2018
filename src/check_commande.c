@@ -25,10 +25,14 @@ static int manage_builtin_cmd(shell_t *shell, cmd_t *cmd, int size)
 		return (change_dir_cmd(&shell->env, cmd->argv));
 	if (my_strcmp(cmd->argv[0], "history"))
 		return (manage_history_command(&shell->env, cmd->argv));
-	if (my_strcmp(cmd->argv[0], "alias"))
-		return (my_alias(shell->alias, cmd->argv[1]));
-	if (my_strcmp(cmd->argv[0], "unalias"))
-		return (my_unalias(shell->alias, cmd->argv[1]));
+	if (my_strcmp(cmd->argv[0], "alias")) {
+		shell->alias = my_alias(shell->alias, cmd->argv[1]);
+		return (0);
+	}
+	if (my_strcmp(cmd->argv[0], "unalias")) {
+		shell->alias = my_unalias(shell->alias, cmd->argv[1]);
+		return (0);
+	}
 	return (-1);
 }
 

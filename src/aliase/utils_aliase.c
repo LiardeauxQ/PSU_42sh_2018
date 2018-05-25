@@ -46,3 +46,26 @@ int count_str_size(char *str, int i)
 	}
 	return (j);
 }
+
+int remove_last_alias(list_alias_t **list_alias)
+{
+	list_alias_t *tmp = *list_alias;
+
+	if (*list_alias != NULL && (*list_alias)->next == NULL) {
+		free((*list_alias)->cmd);
+		free((*list_alias)->new_cmd);
+		free((*list_alias));
+		return (1);
+	}
+	while (tmp->next->next != NULL)
+		tmp = tmp->next;
+	free(tmp->next->cmd);
+	free(tmp->next->new_cmd);
+	tmp->next = NULL;
+	return (0);
+}
+
+void destroy_list_alias(list_alias_t *list_alias)
+{
+	while (remove_last_alias(&list_alias) != 1);
+}

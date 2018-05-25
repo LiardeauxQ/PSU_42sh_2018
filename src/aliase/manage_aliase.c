@@ -7,13 +7,13 @@
 
 #include "minishell.h"
 
-int my_unalias(list_alias_t *list_alias, char *cmd)
+list_alias_t *my_unalias(list_alias_t *list_alias, char *cmd)
 {
 	is_unalias(list_alias, cmd);
-	return (0);
+	return (list_alias);
 }
 
-int my_alias(list_alias_t *list_alias, char *cmd)
+list_alias_t *my_alias(list_alias_t *list_alias, char *cmd)
 {
 	int bef_equal = 0;
 	int aft_equal = 0;
@@ -21,9 +21,9 @@ int my_alias(list_alias_t *list_alias, char *cmd)
 	char *new_cmd = NULL;
 
 	if (cmd == NULL)
-		return (1);
+		return (NULL);
 	if (count_equal(cmd) == 1)
-		return (1);
+		return (NULL);
 	bef_equal = count_str_size(cmd, 0);
 	aft_equal = count_str_size(cmd, bef_equal + 1);
 	old_cmd = malloc(sizeof(char *) * (bef_equal));
@@ -31,10 +31,9 @@ int my_alias(list_alias_t *list_alias, char *cmd)
 	old_cmd = new_str(cmd, 0, old_cmd);
 	new_cmd = new_str(cmd, bef_equal + 1, new_cmd);
 	list_alias = push_back_list_alias(list_alias, old_cmd, new_cmd);
-	print_list(list_alias);
 	free(old_cmd);
 	free(new_cmd);
-	return (0);
+	return (list_alias);
 }
 
 char *replace_alias(list_alias_t *list_alias, char *cmd)
@@ -44,7 +43,7 @@ char *replace_alias(list_alias_t *list_alias, char *cmd)
 		return (NULL);
 	}
 	while (list_alias != NULL) {
-		if (list_alias->cmd == cmd)
+		if (my_strcmp(list_alias->cmd, cmd))
 			return (list_alias->new_cmd);
 		list_alias = list_alias->next;
 	}
@@ -58,7 +57,7 @@ char *is_unalias(list_alias_t *list_alias, char *cmd)
 		return (NULL);
 	}
 	while (list_alias != NULL) {
-		if (list_alias->cmd == cmd) {
+		if (my_strcmp(list_alias->cmd, cmd)) {
 			free(list_alias->cmd);
 			free(list_alias->new_cmd);
 		}
