@@ -39,7 +39,8 @@ int simple_right_arrow(shell_t *shell, cmd_t *cmd, char *filename,
 	if (shell->env == NULL || cmd == NULL || filename == NULL)
 		return (-1);
 	choose_dup_fd(fd_pr);
-	if ((fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, mode)) == -1) {
+	if ((fd = open(filename, O_CREAT
+		| O_WRONLY | O_TRUNC, mode)) == -1) {
 		my_puterror(filename);
 		my_puterror(": No such file or directory.\n");
 		return (1);

@@ -62,7 +62,8 @@ int simple_left_arrow(shell_t *shell, cmd_t *cmd, char *filename,
 char **remove_redir_char(char **argv);
 int check_if_redirection(char **split_cmd);
 int check_redirections_char(cmd_t *cmd, int pos);
-int manage_redirection(cmd_t *cmd, shell_t *shell, int type, fildes_pipe_t *fd_pr);
+int manage_redirection(cmd_t *cmd, shell_t *shell, int type,
+	fildes_pipe_t *fd_pr);
 
 /* condition_command.c */
 
