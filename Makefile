@@ -35,6 +35,7 @@ SRC	=	src/manage_env/set_env_commande.c	\
 		src/catch_cmd_string/order_cmd_list.c	\
 		src/catch_cmd_string/tab_completion.c	\
 		src/catch_cmd_string/tab_key_management.c	\
+		src/catch_cmd_string/movement_history.c	\
 		src/aliase/init_list_alias.c	\
 		src/aliase/manage_aliase.c	\
 		src/aliase/utils_aliase.c	\

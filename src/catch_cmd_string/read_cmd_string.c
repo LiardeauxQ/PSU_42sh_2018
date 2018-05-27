@@ -29,10 +29,11 @@ void print_arrow(char arrow_type)
 
 char *read_line_cmd(int fd)
 {
-	stock_buffer_t stk_buf = {0, 0, 0, NULL, NULL};
 	int spe = 0;
 	int arrow = 0;
 	int cols = 0;
+	char **history = open_history();
+	stock_buffer_t stk_buf = {0, 0, 0, count_2d_array(history) - 1,  NULL, NULL};
 
 	tgetent(NULL, getenv("TERM"));
 	cols = tgetnum("co") - 2;
@@ -41,7 +42,7 @@ char *read_line_cmd(int fd)
 			print_buffer(&stk_buf);
 		stk_buf.c = getch_one_char(fd);
 		spe = check_special_char(&stk_buf, cols);
-		arrow = check_arrow_key_event(&stk_buf);
+		arrow = check_arrow_key_event(&stk_buf, history);
 		if (spe == 0 && arrow == 0) {
 			fill_buf(&stk_buf, cols);
 		} else if (spe == 2) {
@@ -50,5 +51,6 @@ char *read_line_cmd(int fd)
 		}
 	}
 	putchar_fd('\n', 0);
+	destroy_2darray(history);
 	return (stk_buf.buf);
 }

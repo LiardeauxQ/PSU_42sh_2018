@@ -41,7 +41,7 @@ char *remove_cmd_dir_path(char *cmd)
 		sep = j;
 	if (sep > 0)
 		delta = sep - 1;
-	if (delta != strlen(cmd))
+	if (delta < strlen(cmd) + 1)
 		cmd = cmd + delta + 1;
 	return (cmd);
 }

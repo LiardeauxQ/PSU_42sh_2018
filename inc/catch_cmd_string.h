@@ -12,6 +12,7 @@ typedef struct stock_buffer_s {
 	char c;
 	int pos;
 	int size;
+	int hist_pos;
 	char *buf;
 	char *spe_buf;
 } stock_buffer_t;
@@ -31,7 +32,7 @@ char *remove_char_in_buffer(char *buffer, int current_pos, int move);
 
 /* key_event.c */
 
-int check_arrow_key_event(stock_buffer_t *stk_buf);
+int check_arrow_key_event(stock_buffer_t *stk_buf, char **history);
 int check_arrow_key(void);
 char getch_one_char(int fd);
 int check_special_char(stock_buffer_t *stk_buf, int cols);
@@ -57,5 +58,10 @@ list_t *find_cmd_completion(char *cmd, int cursor, int pos);
 /* tab_key_management.c */
 
 int check_tab_key(stock_buffer_t *stk_buf, int cols);
+
+/* movement_history.c */
+
+char **open_history(void);
+void move_cmd_history(stock_buffer_t *stk_buf, char *history);
 
 #endif /* CATCH_CMD_STRING_H_ */

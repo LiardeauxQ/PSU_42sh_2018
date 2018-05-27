@@ -55,19 +55,23 @@ int check_arrow_key(void)
 	return (0);
 }
 
-int check_arrow_key_event(stock_buffer_t *stk_buf)
+
+
+int check_arrow_key_event(stock_buffer_t *stk_buf, char **history)
 {
 	int arrow = 0;
-	char *test[] = {"aze", "rty", "test", "encore des tests", NULL};
-	static int a = 0;
+	int hist_size = count_2d_array(history);
 
 	if (stk_buf->c == 27)
 		arrow = check_arrow_key();
 	if (arrow == 1 || arrow == 3) {
-		a += ((arrow == 1) ? (1) : (-1));
-		if (stk_buf->buf != NULL)
-			free(stk_buf->buf);
-		stk_buf->buf = my_strdup(test[a]);
+		stk_buf->hist_pos += ((arrow == 3) ? (1) : (-1));
+		if (stk_buf->hist_pos <= 0)
+			stk_buf->hist_pos = 0;
+		else if (stk_buf->hist_pos >= hist_size)
+			stk_buf->hist_pos = hist_size - 1;
+		move_cmd_history(stk_buf, history[stk_buf->hist_pos]);
+		return (arrow);
 	}
 	if (arrow == 2 && stk_buf->pos < stk_buf->size) {
 		stk_buf->pos += 1;
@@ -97,6 +101,8 @@ int check_special_char(stock_buffer_t *stk_buf, int cols)
 	int quit = 0;
 	int arrow = 0;
 
+	if (check_tab_key(stk_buf, cols))
+		quit = 1;
 	if (stk_buf->c == 4)
 		quit = 2;
 	if (stk_buf->pos + 3 <= 3 && stk_buf->c >= 127) {
@@ -111,7 +117,5 @@ int check_special_char(stock_buffer_t *stk_buf, int cols)
 		stk_buf->spe_buf[stk_buf->pos] = '\0';
 		quit = 1;
 	}
-	if (check_tab_key(stk_buf, cols))
-		quit = 1;
 	return (quit);
 }
