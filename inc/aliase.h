@@ -36,7 +36,6 @@ int list_length(list_alias_t *list_alias);
 list_alias_t *new_list_alias(void);
 int is_empty_list(list_alias_t *list_alias);
 int list_length(list_alias_t *list_alias);
-void print_list(list_alias_t *list_alias);
 
 /*Check alias and unalias existence*/
 

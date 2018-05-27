@@ -15,6 +15,7 @@
 #include <curses.h>
 #include <term.h>
 #include <dirent.h>
+#include "my.h"
 #include <time.h>
 #include "parse_cmd_string.h"
 #include "aliase.h"
@@ -31,7 +32,6 @@ typedef struct shell_s {
 #include "manage_multiple_command.h"
 #include "echo_command.h"
 #include "catch_cmd_string.h"
-#include "my.h"
 
 /* check_commande.c */
 

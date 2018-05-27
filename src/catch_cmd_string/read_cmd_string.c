@@ -27,29 +27,39 @@ void print_arrow(char arrow_type)
 	putchar_fd(arrow_type, 0);
 }
 
-char *read_line_cmd(int fd)
+void manage_read_line(stock_buffer_t *stk_buf, char **history, int fd,
+int cols)
 {
-	stock_buffer_t stk_buf = {0, 0, 0, NULL, NULL};
 	int spe = 0;
 	int arrow = 0;
-	int cols = 0;
 
-	keypad(NULL, true);
-	tgetent(NULL, getenv("TERM"));
-	cols = tgetnum("co") - 2;
-	while (stk_buf.c != '\n') {
+	while (stk_buf->c != '\n') {
 		if (arrow == 0)
-			print_buffer(&stk_buf);
-		stk_buf.c = getch_one_char(fd);
-		spe = check_special_char(&stk_buf, cols);
-		arrow = check_arrow_key_event(&stk_buf);
+			print_buffer(stk_buf, 0);
+		stk_buf->c = getch_one_char(fd);
+		spe = check_special_char(stk_buf, cols);
+		arrow = check_arrow_key_event(stk_buf, history);
 		if (spe == 0 && arrow == 0) {
-			fill_buf(&stk_buf, cols);
+			fill_buf(stk_buf, cols);
 		} else if (spe == 2) {
-			stk_buf.buf = NULL;
+			stk_buf->buf = NULL;
 			break;
 		}
 	}
+}
+
+char *read_line_cmd(int fd)
+{
+	int cols = 0;
+	char **history = open_history();
+	stock_buffer_t stk_buf = {0, 0, 0,
+	count_2d_array(history) - 1,  NULL, NULL};
+
+	tgetent(NULL, getenv("TERM"));
+	cols = tgetnum("co") - 2;
+	manage_read_line(&stk_buf, history, fd, cols);	
 	putchar_fd('\n', 0);
+	destroy_2darray(history);
+	free(stk_buf.spe_buf);
 	return (stk_buf.buf);
 }

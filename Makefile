@@ -31,6 +31,11 @@ SRC	=	src/manage_env/set_env_commande.c	\
 		src/catch_cmd_string/key_event.c	\
 		src/catch_cmd_string/buffer_modification.c	\
 		src/catch_cmd_string/read_cmd_string.c	\
+		src/catch_cmd_string/cmd_operation.c	\
+		src/catch_cmd_string/order_cmd_list.c	\
+		src/catch_cmd_string/tab_completion.c	\
+		src/catch_cmd_string/tab_key_management.c	\
+		src/catch_cmd_string/movement_history.c	\
 		src/aliase/init_list_alias.c	\
 		src/aliase/manage_aliase.c	\
 		src/aliase/utils_aliase.c	\
@@ -45,9 +50,9 @@ OBJ	=	$(SRC:.c=.o)
 
 CC	=	cc
 
-CFLAGS	=	-g -I inc/ -Wall -Wextra
+CFLAGS	=	-g -I inc/ -I lib/linked_list -Wall -Wextra
 
-LDFLAGS	=	-L lib/my -lmy -lncurses
+LDFLAGS	=	-L lib/my -L lib/linked_list -llinklist -lmy -lncurses
 
 CPPFLAGS	= -I inc/
 
@@ -65,6 +70,7 @@ $(NAME):	$(OBJ)
 	@echo -e '${BG_COLOR}Flags: $(LDFLAGS) $(CFLAGS)${NC}'
 	@echo -e '${GREEN}Create${NC}: ${GREY}./$(NAME)${NC}'
 	@make --no-print-directory -C lib/my
+	@make --no-print-directory -C lib/linked_list
 	@$(CC) -o $(NAME) $(OBJ) $(LDFLAGS)
 
 %.o:	%.c
@@ -73,11 +79,13 @@ $(NAME):	$(OBJ)
 
 clean:
 	@make clean -C lib/my
+	@make clean -C lib/linked_list
 	@rm -f $(OBJ)
 	@echo -e '${RED}Clean${NC} : OK'
 
 fclean: clean
 	@make fclean -C lib/my
+	@make fclean -C lib/linked_list
 	@rm -f $(NAME)
 	@echo -e '${RED}Fclean${NC}: ./$(NAME) removed'
 

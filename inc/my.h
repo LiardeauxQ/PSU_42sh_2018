@@ -19,6 +19,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <dirent.h>
+#include "linked_list.h"
 #include <sys/stat.h>
 
 char *int_tostr(int n);
@@ -31,11 +32,11 @@ char *my_strcpy(char *dest, const char *src);
 int my_strtoi(char *number);
 int my_strtoi_error(char *number);
 int my_strcmp(char const *s1, char const *s2);
+int my_strncmp(char const *s1, char const *s2, int n);
 char *my_strdup(char const *src);
 int my_puterror(char const *str);
 char ***create_3d_array(int size1, int size2);
 int count_3d_array(char ***array);
-void destroy_2darray(char **array);
 void destroy_3darray(char ***array);
 char *my_strcat(char *dest, char const *src);
 char *get_next_line(int fd);
@@ -53,5 +54,6 @@ int count_str_rec(char *str1, char *str2);
 int check_multiple_caractere(char *str, char *c, int i);
 int convert_base_to_decimal(char *nb, int base);
 int my_pow(int nb, int pow_nbr);
+int cinstr(char *str, char c);
 
 #endif /* MY_H_ */

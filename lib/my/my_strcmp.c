@@ -20,6 +20,19 @@ int my_strcmp(char const *s1, char const *s2)
 	return (1);
 }
 
+int my_strncmp(char const *s1, char const *s2, int n)
+{
+	if (s1 == NULL || s2 == NULL)
+		return (0);
+	else if (my_strlen(s1) != my_strlen(s2))
+		return (0);
+	for (int i = 0 ; i < n && s1[i] != '\0' ; i++) {
+		if (s1[i] != s2[i])
+			return (0);
+	}
+	return (1);
+}
+
 int my_strcmp_with_ignore(char const *s1, char const *s2, char c)
 {
 	int j = 0;
