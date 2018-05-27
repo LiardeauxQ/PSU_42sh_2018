@@ -14,8 +14,13 @@ SRC	=	src/manage_env/set_env_commande.c	\
 		src/change_dir/manage_pwd_var.c	\
 		src/echo_command/manage_quote_cmd.c	\
 		src/echo_command/recup_echo_argument.c	\
+		src/manage_inhibitors/my_str_to_backslash_tab.c	\
+		src/manage_inhibitors/my_str_to_back_tab.c	\
+		src/manage_inhibitors/trim_spaces.c		\
+		src/manage_inhibitors/my_is_in_str.c		\
+		src/manage_inhibitors/manage_inhibitor.c		\
 		src/multiple_command/manage_fd_redirection.c	\
-		src/multiple_command/manage_pipe_char.c	\
+		src/multiple_command/manage_pipe_char.c		\
 		src/multiple_command/manage_multiple_command.c	\
 		src/multiple_command/arrow_char_redirection.c	\
 		src/multiple_command/redirection_char.c	\
@@ -30,9 +35,14 @@ SRC	=	src/manage_env/set_env_commande.c	\
 		src/catch_cmd_string/order_cmd_list.c	\
 		src/catch_cmd_string/tab_completion.c	\
 		src/catch_cmd_string/tab_key_management.c	\
+		src/aliase/init_list_alias.c	\
+		src/aliase/manage_aliase.c	\
+		src/aliase/utils_aliase.c	\
 		src/manage_exe_commande.c	\
 		src/manage_error.c	\
 		src/check_commande.c	\
+		src/history/manage_history.c	\
+		src/history/history_counter.c	\
 		src/main.c
 
 OBJ	=	$(SRC:.c=.o)
@@ -42,6 +52,8 @@ CC	=	cc
 CFLAGS	=	-g -I inc/ -I lib/linked_list -Wall -Wextra
 
 LDFLAGS	=	-L lib/my -L lib/linked_list -llinklist -lmy -lncurses
+
+CPPFLAGS	= -I inc/
 
 NAME	=	42sh
 

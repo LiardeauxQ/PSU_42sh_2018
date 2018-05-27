@@ -29,3 +29,23 @@ int my_strtoi(char *number)
 		resultat = resultat * (-1);
 	return (resultat);
 }
+
+int my_strtoi_error(char *number)
+{
+	int size = my_strlen(number);
+	int resultat = 0;
+	int i = 0;
+
+	if (number == NULL)
+		return (0);
+	while (i < size - 1) {
+		if (number[i] < '0' || number[i] > '9')
+			return (-1);
+		resultat = (resultat + number[i] - 48) * 10;
+		i = i + 1;
+	}
+	if (number[i] < '0' || number[i] > '9')
+		return (-1);
+	resultat = resultat + (number[i] - 48);
+	return (resultat);
+}
