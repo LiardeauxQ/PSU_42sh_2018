@@ -50,5 +50,6 @@ int count_str_rec(char *str1, char *str2);
 int check_multiple_caractere(char *str, char *c, int i);
 int convert_base_to_decimal(char *nb, int base);
 int my_pow(int nb, int pow_nbr);
+int cinstr(char *str, char c);
 
 #endif /* MY_H_ */

@@ -7,6 +7,14 @@
 
 #include "my.h"
 
+int cinstr(char *str, char c)
+{
+	for (int i = 0 ; str[i] != '\0' ; i++)
+		if (str[i] == c)
+			return (1);
+	return (0);
+}
+
 char *remove_useless_char(char *str, char *c)
 {
 	int i = 0;

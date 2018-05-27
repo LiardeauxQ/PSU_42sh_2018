@@ -24,19 +24,9 @@ list_t *add_cmd_to_list(char const *dirname, char const *cmd, list_t *cmd_list)
 
 char *cut_cmd(char *cmd, int cursor)
 {
-	char *str_cut = malloc((cursor + 1) * sizeof(char));
-	int i = 0;
-	int j = 0;
+	char *str = strdup(cmd);
 
-	check_malloc(str_cut);
-	if (strlen(cmd) >= 2 && cmd[0] == '.' && cmd[1] == '/')
-		i = 2;
-	while (i < cursor) {
-		str_cut[j] = cmd[i++];
-		j = j + 1;
-	}
-	str_cut[j] = '\0';
-	return (str_cut);
+	return (str);
 }
 
 char *remove_cmd_dir_path(char *cmd)
@@ -44,16 +34,14 @@ char *remove_cmd_dir_path(char *cmd)
 	unsigned int delta = 0;
 	int sep = -1;
 
-	for (int i = 0 ; cmd[i] != '\0' && cmd[i] != '/' ; i++)
-		delta += 1;
-	for (int j = my_strlen(cmd) - 1 ; j > 0 && cmd[j] != ' '
-	&& cmd[j] != '\t' ; j--)
+	for (int i = my_strlen(cmd) ; i >= 0 && cmd[i] != '/' ; i--)
+		delta = i - 1;
+	for (int j = my_strlen(cmd) ; j >= 0 && cmd[j] != ' '
+	&& cmd[j] != '\t' && cmd[j] != '/' ; j--)
 		sep = j;
-	if (sep != -1) {
-		delta = sep;
-	}
+	if (sep > 0)
+		delta = sep - 1;
 	if (delta != strlen(cmd))
 		cmd = cmd + delta + 1;
-	//printf("cmd %s %d\n", cmd, delta);
 	return (cmd);
 }
