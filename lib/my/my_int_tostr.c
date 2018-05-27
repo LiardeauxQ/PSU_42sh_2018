@@ -1,8 +1,8 @@
 /*
 ** EPITECH PROJECT, 2017
-** my_int_tostr.c
+** libmy
 ** File description:
-**
+** my_int_tostr.c
 */
 
 #include "my.h"
