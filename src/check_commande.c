@@ -7,20 +7,29 @@
 
 #include "minishell.h"
 
-static int manage_builtin_cmd(shell_t *shell, cmd_t *cmd, int size)
+static int manage_builtin_env(shell_t *shell, cmd_t *cmd, int size)
 {
-	if (shell->env == NULL || cmd->argv == NULL)
-		return (-2);
+	if (my_strcmp(cmd->argv[0], "unsetenv"))
+		return (unset_env_commande(&shell->env, cmd->argv));
 	if (my_strcmp(cmd->argv[0], "env")) {
 		display_env_var(shell->env);
 		return (0);
 	}
 	if (my_strcmp(cmd->argv[0], "setenv"))
 		return (set_environment_cmd(&shell->env, cmd->argv, size));
+	return (-5);
+}
+
+static int manage_builtin_cmd(shell_t *shell, cmd_t *cmd, int size)
+{
+	int status = 0;
+
+	if (shell->env == NULL || cmd->argv == NULL)
+		return (-2);
+	if ((status = manage_builtin_env(shell, cmd, size)) != -5)
+		return (status);
 	if (my_strcmp(cmd->argv[0], "echo"))
 		return (execute_echo_command(cmd));
-	if (my_strcmp(cmd->argv[0], "unsetenv"))
-		return (unset_env_commande(&shell->env, cmd->argv));
 	if (my_strcmp(cmd->argv[0], "cd"))
 		return (change_dir_cmd(&shell->env, cmd->argv));
 	if (my_strcmp(cmd->argv[0], "history"))
