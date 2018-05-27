@@ -22,13 +22,6 @@ list_t *add_cmd_to_list(char const *dirname, char const *cmd, list_t *cmd_list)
 	return (cmd_list);
 }
 
-char *cut_cmd(char *cmd, int cursor)
-{
-	char *str = strdup(cmd);
-
-	return (str);
-}
-
 char *remove_cmd_dir_path(char *cmd)
 {
 	unsigned int delta = 0;
@@ -44,4 +37,29 @@ char *remove_cmd_dir_path(char *cmd)
 	if (delta < strlen(cmd) + 1)
 		cmd = cmd + delta + 1;
 	return (cmd);
+}
+
+char *add_dir_to_path(char *cmd)
+{
+	char *new_pwd = NULL;
+	int size = my_strlen(cmd);
+	int path_pos = 0;
+	int space_pos = 0;
+	int j = 0;
+
+	if (!cinstr(cmd, '/'))
+		return (my_strdup("./"));
+	for (int i = size ; i >= 0 && cmd[i] != '/' ; i--)
+		path_pos = i;
+	for (int k = size ; k >= 0 && cmd[k] != ' ' && cmd[k] != '\t' ; k--)
+		space_pos = k;
+	if (space_pos > path_pos)
+		return (my_strdup("./"));
+	new_pwd = malloc((size + 1) * sizeof(char));
+	for (int a = space_pos ; cmd[a] != '\0' && a < path_pos ; a++) {
+		new_pwd[j] = cmd[a];
+		j = j + 1;
+	}
+	new_pwd[j] = '\0';
+	return (new_pwd);
 }

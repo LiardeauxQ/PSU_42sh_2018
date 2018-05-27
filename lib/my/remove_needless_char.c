@@ -9,7 +9,7 @@
 
 int cinstr(char *str, char c)
 {
-	for (int i = 0 ; i < strlen(str) ; i++)
+	for (unsigned int i = 0 ; i < strlen(str) ; i++)
 		if (str[i] == c)
 			return (1);
 	return (0);

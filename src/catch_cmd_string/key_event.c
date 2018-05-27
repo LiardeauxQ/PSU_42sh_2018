@@ -71,7 +71,6 @@ int check_arrow_key_event(stock_buffer_t *stk_buf, char **history)
 		else if (stk_buf->hist_pos >= hist_size)
 			stk_buf->hist_pos = hist_size - 1;
 		move_cmd_history(stk_buf, history[stk_buf->hist_pos]);
-		return (arrow);
 	}
 	if (arrow == 2 && stk_buf->pos < stk_buf->size) {
 		stk_buf->pos += 1;
@@ -99,7 +98,6 @@ static void print_back_line(stock_buffer_t *stk_buf, int cols)
 int check_special_char(stock_buffer_t *stk_buf, int cols)
 {
 	int quit = 0;
-	int arrow = 0;
 
 	if (check_tab_key(stk_buf, cols))
 		quit = 1;

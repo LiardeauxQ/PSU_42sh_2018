@@ -26,7 +26,7 @@ char *read_line_cmd(int fd);
 
 /* buffer_modification.c */
 
-int print_buffer(stock_buffer_t *stk_buf);
+int print_buffer(stock_buffer_t *stk_buf, int reset);
 void fill_buf(stock_buffer_t *stk_buf, int cols);
 char *remove_char_in_buffer(char *buffer, int current_pos, int move);
 
@@ -40,8 +40,8 @@ int check_special_char(stock_buffer_t *stk_buf, int cols);
 /* cmd_operation.c */
 
 list_t *add_cmd_to_list(char const *dirname, char const *cmd, list_t *cmd_list);
-char *cut_cmd(char *cmd, int cursor);
 char *remove_cmd_dir_path(char *cmd);
+char *add_dir_to_path(char *cmd);
 
 /* order_cmd_list.c */
 
@@ -53,7 +53,7 @@ int compare_str_alpha(list_t *list);
 list_t *open_dir_for_comparaison(char const *dirname, char const *str);
 int check_cmd_already_in(list_t *cmd_list, char const *cmd);
 void print_tab_command(list_t *list, int term_size);
-list_t *find_cmd_completion(char *cmd, int cursor, int pos);
+list_t *find_cmd_completion(char *cmd, int pos);
 
 /* tab_key_management.c */
 

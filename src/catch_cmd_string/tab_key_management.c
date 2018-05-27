@@ -25,13 +25,13 @@ static char *update_spe_buf_cmd(char const *buf, int cols)
 static void manage_current_dir_tab(stock_buffer_t *stk_buf, list_t *cmd_list)
 {
 	int slash_pos = 0;
-	int delta = 0;
 	int tmp = 0;
 
-	for (int i = my_strlen(stk_buf->buf) ; i >= 0 && stk_buf->buf[i] != '/' && stk_buf->buf[i] != ' ' ; i--)
+	for (int i = my_strlen(stk_buf->buf) ; i >= 0
+	&& stk_buf->buf[i] != '/' && stk_buf->buf[i] != ' ' ; i--)
 		slash_pos = i;
-
-	stk_buf->buf = realloc(stk_buf->buf, my_strlen(stk_buf->buf) + my_strlen(cmd_list->data) + 1);
+	stk_buf->buf = realloc(stk_buf->buf, my_strlen(stk_buf->buf)
+	+ my_strlen(cmd_list->data) + 1);
 	tmp = my_strlen(stk_buf->buf) - slash_pos;
 	if (tmp < my_strlen(cmd_list->data))
 		stk_buf->buf = strcat(stk_buf->buf, cmd_list->data + tmp);
@@ -42,7 +42,7 @@ static void update_buf_cmd_if_tab(stock_buffer_t *stk_buf, int cols, int size)
 	list_t *cmd_list = NULL;
 	int list_size = 0;
 
-	cmd_list = find_cmd_completion(stk_buf->buf, stk_buf->pos, size - 1);
+	cmd_list = find_cmd_completion(stk_buf->buf, size - 1);
 	list_size = count_list_size(cmd_list);
 	if (list_size > 1) {
 		putchar_fd('\n', 0);

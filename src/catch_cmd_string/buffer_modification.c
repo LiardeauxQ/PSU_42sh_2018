@@ -7,33 +7,37 @@
 
 #include "minishell.h"
 
-static int clean_window_buffer(stock_buffer_t *stk_buf, int *j)
+int clean_window_buffer(stock_buffer_t *stk_buf, int *j, int reset)
 {
 	static int last_size = 0;
 
-	if (stk_buf->buf == NULL) {
+	if (stk_buf == 0x0 || stk_buf->buf == 0x0) {
 		last_size = 0;
 		*j = 0;
 		return (1);
 	}
-	if (stk_buf->pos == stk_buf->size) {
+	if (reset == 0 && stk_buf->pos == stk_buf->size) {
 		for (int i = 0 ; i < last_size
 		- my_strlen(stk_buf->buf) ; i++) {
 			putstr_fd("\b \b", 0);
 			*j = *j - 1;
 		}
-	} else
+	} else if (reset == 0)
 		*j = stk_buf->pos - 1;
 	last_size = my_strlen(stk_buf->buf);
 	return (0);
 }
 
-int print_buffer(stock_buffer_t *stk_buf)
+int print_buffer(stock_buffer_t *stk_buf, int reset)
 {
 	static int j = 0;
 
-	if (clean_window_buffer(stk_buf, &j))
+	if (clean_window_buffer(stk_buf, &j, reset))
 		return (1);
+	if (reset == 1) {
+		j = my_strlen(stk_buf->buf);
+		return (0);
+	}
 	if (j < 0)
 		j = 0;
 	while (j < my_strlen(stk_buf->buf)) {
