@@ -40,7 +40,7 @@ int check_if_is_cmd(char *env[], char *cmd_name)
 		return (0);
 	if (path == NULL)
 		path = my_strdup("/bin:");
-	if (path != NULL)
+	else
 		split_path = split_path_var(path, ":");
 	if (split_path == NULL)
 		return (manage_cmd_not_found(cmd_name));

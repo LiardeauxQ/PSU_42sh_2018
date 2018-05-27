@@ -57,7 +57,7 @@ char *read_line_cmd(int fd)
 
 	tgetent(NULL, getenv("TERM"));
 	cols = tgetnum("co") - 2;
-	manage_read_line(&stk_buf, history, fd, cols);	
+	manage_read_line(&stk_buf, history, fd, cols);
 	putchar_fd('\n', 0);
 	destroy_2darray(history);
 	free(stk_buf.spe_buf);

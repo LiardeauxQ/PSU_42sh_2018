@@ -55,8 +55,6 @@ int check_arrow_key(void)
 	return (0);
 }
 
-
-
 int check_arrow_key_event(stock_buffer_t *stk_buf, char **history)
 {
 	int arrow = 0;
@@ -64,7 +62,7 @@ int check_arrow_key_event(stock_buffer_t *stk_buf, char **history)
 
 	if (stk_buf->c == 27)
 		arrow = check_arrow_key();
-	if (arrow == 1 || arrow == 3) {
+	if ((arrow == 1 || arrow == 3) && history != NULL) {
 		stk_buf->hist_pos += ((arrow == 3) ? (1) : (-1));
 		if (stk_buf->hist_pos <= 0)
 			stk_buf->hist_pos = 0;
@@ -104,7 +102,7 @@ int check_special_char(stock_buffer_t *stk_buf, int cols)
 	if (stk_buf->c == 4)
 		quit = 2;
 	if (stk_buf->pos + 3 <= 3 && stk_buf->c >= 127) {
-		quit = 3;	
+		quit = 3;
 	} else if (stk_buf->c == 127) {
 		stk_buf->pos = stk_buf->pos - 1;
 		stk_buf->size = stk_buf->size - 1;

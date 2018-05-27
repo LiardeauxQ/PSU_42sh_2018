@@ -67,7 +67,7 @@ int manage_redirection(cmd_t *cmd, shell_t *shell, int type,
 fildes_pipe_t *fd_pr)
 {
 	int size = count_2d_array(cmd->argv);
-	int (**redir)(shell_t *, cmd_t *, char *, fildes_pipe_t *) = 
+	int (**redir)(shell_t *, cmd_t *, char *, fildes_pipe_t *) =
 	redir_init();
 	int quit = 0;
 	int wstatus = 0;

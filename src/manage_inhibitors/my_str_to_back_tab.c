@@ -7,30 +7,30 @@
 
 #include "manage_multiple_command.h"
 
-int	check_i(char *str, int i, char c)
+int check_i(char *str, int i, char c)
 {
 	if (str[i] == c && str[i - 1] != 92)
 		i = i + 1;
 	return (i);
 }
 
-int	check_y(char *str, char c, int y, int i)
+int check_y(char *str, char c, int y, int i)
 {
 	if (str[i] != c)
 		y = y + 1;
 	return (y);
 }
 
-char	**array_null(char **arr, int y)
+char **array_null(char **arr, int y)
 {
 	arr[y] = NULL;
 	return (arr);
 }
 
-char	**my_str_to_word_array(char *str, char **arr, char c, int i)
+char **my_str_to_word_array(char *str, char **arr, char c, int i)
 {
-	int	x = 0;
-	int	y = 0;
+	int x = 0;
+	int y = 0;
 
 	for (; str[i] != '\0'; i++) {
 		if (str[i] == c && str[i + 1] == '\0')
@@ -51,7 +51,7 @@ char	**my_str_to_word_array(char *str, char **arr, char c, int i)
 	return (array_null(arr, y));
 }
 
-char	**my_str_to_back_tab(char **array, char *str, char c)
+char **my_str_to_back_tab(char **array, char *str, char c)
 {
 	if (array == NULL) {
 		array = malloc(sizeof(char *) * (my_strlen(str) + 1));

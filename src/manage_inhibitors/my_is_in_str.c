@@ -7,7 +7,7 @@
 
 #include "manage_multiple_command.h"
 
-int	my_is_in_str(char *str, char c)
+int my_is_in_str(char *str, char c)
 {
 	for (int i = 0; str[i] != '\0'; i++)
 		if (str[i] == c)

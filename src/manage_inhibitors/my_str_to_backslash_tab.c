@@ -24,7 +24,7 @@ static int check_multiple_char(char *str, char *c, int i)
 
 int count_rec(char *str, char *c)
 {
-	int	size = 1;
+	int size = 1;
 
 	for (int i = 0; i < my_strlen(str); i++) {
 		if (check_same_char(str[i], c) == 1)
@@ -36,8 +36,8 @@ int count_rec(char *str, char *c)
 
 static char **initialize_str_to_tab_array(char *str, char *c)
 {
-	int	size = count_rec(str, c);
-	char	**array = malloc(sizeof(char *) * (size + 1));
+	int size = count_rec(str, c);
+	char **array = malloc(sizeof(char *) * (size + 1));
 
 	check_malloc(array);
 	for (int i = 0; i < size; i++) {
@@ -47,11 +47,11 @@ static char **initialize_str_to_tab_array(char *str, char *c)
 	return (array);
 }
 
-char	**my_str_to_backslash_tab(char *str, char *c)
+char **my_str_to_backslash_tab(char *str, char *c)
 {
-	char	**tab_str = NULL;
-	int	j = 0;
-	int	k = 0;
+	char **tab_str = NULL;
+	int j = 0;
+	int k = 0;
 
 	if (str == NULL || c == NULL || my_strlen(str) == 0)
 		return (NULL);

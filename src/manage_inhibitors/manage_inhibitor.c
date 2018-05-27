@@ -7,9 +7,9 @@
 
 #include "manage_multiple_command.h"
 
-int	count_inhib(char *cmd)
+int count_inhib(char *cmd)
 {
-	int	res = 0;
+	int res = 0;
 
 	for (int i = 0; cmd[i] != '\0'; i++)
 		if (cmd[i] == '\\')
@@ -17,7 +17,7 @@ int	count_inhib(char *cmd)
 	return (res);
 }
 
-char	*basic_inhib(char *cmd, char c, int i)
+char *basic_inhib(char *cmd, char c, int i)
 {
 	if (c != '\0')
 		cmd[i] = c;
@@ -28,7 +28,7 @@ char	*basic_inhib(char *cmd, char c, int i)
 	return (cmd);
 }
 
-char	*spaces_inhib(char *cmd)
+char *spaces_inhib(char *cmd)
 {
 	for (int i = 0; cmd[i] != '\0'; i++) {
 		if (cmd[i] == '\\' && cmd[i + 1] == ' ')
@@ -45,7 +45,7 @@ char	*spaces_inhib(char *cmd)
 	return (cmd);
 }
 
-char	*replace_ascii_inhib(char *cmd)
+char *replace_ascii_inhib(char *cmd)
 {
 	for (int i = 0; cmd[i] != '\0'; i++) {
 		if (cmd[i] == '\\' && cmd[i + 1] == 'a')
@@ -66,10 +66,10 @@ char	*replace_ascii_inhib(char *cmd)
 	return (spaces_inhib(cmd));
 }
 
-char	**manage_inhibitors(char *cmd)
+char **manage_inhibitors(char *cmd)
 {
-	char	**array = NULL;
-	char	inhib[4] = {' ', '"', '\'', '\\'};
+	char **array = NULL;
+	char inhib[4] = {' ', '"', '\'', '\\'};
 
 	for (int i = 0; i < 4; i++) {
 		if (my_is_in_str(cmd, inhib[i]) == 1) {

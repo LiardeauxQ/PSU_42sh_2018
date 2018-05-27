@@ -50,7 +50,7 @@ static void update_buf_cmd_if_tab(stock_buffer_t *stk_buf, int cols, int size)
 		my_putstr("\n$> ");
 		putstr_fd(stk_buf->buf, 0);
 	} else if (list_size == 1) {
-		manage_current_dir_tab(stk_buf, cmd_list);		
+		manage_current_dir_tab(stk_buf, cmd_list);
 		stk_buf->spe_buf = update_spe_buf_cmd(stk_buf->buf, cols);
 		stk_buf->size = strlen(stk_buf->buf);
 		stk_buf->pos = stk_buf->size;

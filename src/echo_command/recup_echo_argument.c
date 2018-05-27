@@ -29,7 +29,7 @@ int manage_control_char(char control_char[], int *i)
 		}
 	}
 	*i = *i + 2;
-	return (ascii_value);	
+	return (ascii_value);
 }
 
 void print_echo_str(char *str)

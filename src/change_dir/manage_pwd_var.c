@@ -7,7 +7,8 @@
 
 #include "minishell.h"
 
-static char **check_empty_pwd_var(char **env, int *pwd_index, int *oldpwd_index)
+static char **check_empty_pwd_var(char **env, int *pwd_index,
+	int *oldpwd_index)
 {
 	int size_env = count_2d_array(env);
 

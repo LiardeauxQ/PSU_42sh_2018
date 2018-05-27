@@ -47,7 +47,7 @@ int check_one_separator_command(cmd_t *cmd, shell_t *shell)
 	if (cmd == NULL)
 		return (-1);
 	if (cmd->redirection != 0) {
-		quit = manage_redirection(cmd, shell, 
+		quit = manage_redirection(cmd, shell,
 		cmd->redirection, NULL);
 		return (quit);
 	}
@@ -77,7 +77,7 @@ int manage_multiple_commande(char *str_cmd, shell_t *shell)
 {
 	int quit = 0;
 
-	if (str_cmd == NULL || check_empty_line(str_cmd) == 0 
+	if (str_cmd == NULL || check_empty_line(str_cmd) == 0
 	|| shell->env == NULL)
 		return (0);
 	shell->cmd = create_cmd_struct(str_cmd);

@@ -7,9 +7,9 @@
 
 #include "manage_multiple_command.h"
 
-char	*clean(char *str)
+char *clean(char *str)
 {
-	char	*new_str = malloc(my_strlen(str) + 1);
+	char *new_str = malloc(my_strlen(str) + 1);
 	int j = 0;
 
 	for (int i = 0 ; str[i] != '\0' ; i++) {

@@ -34,8 +34,8 @@ int convert_base_to_decimal(char *nb, int base)
 		if (nb[i] >= 'A' && nb[i] <= 'F')
 			rest = 10 + nb[i] - 65;
 		else
-			rest = nb[i] - 48;	
-		result += rest * my_pow(base, j);	
+			rest = nb[i] - 48;
+		result += rest * my_pow(base, j);
 		j = j + 1;
 	}
 	return (result);
