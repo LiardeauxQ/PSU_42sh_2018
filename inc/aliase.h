@@ -39,7 +39,9 @@ int list_length(list_alias_t *list_alias);
 
 /*Check alias and unalias existence*/
 
-char *is_unalias(list_alias_t *list_alias, char *cmd);
+list_alias_t *is_unalias(list_alias_t *list_alias, char *cmd);
+list_alias_t *check_unalias(list_alias_t *list_alias, list_alias_t *tmp,
+	list_alias_t *previous, char *cmd);
 char *replace_alias(list_alias_t *list_alias, char *cmd);
 
 #endif /* ALIASE_H_ */

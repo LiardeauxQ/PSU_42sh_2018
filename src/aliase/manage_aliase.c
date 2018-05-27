@@ -10,7 +10,7 @@
 list_alias_t *my_unalias(list_alias_t *list_alias, char **cmd)
 {
 	if (count_2d_array(cmd) == 2)
-		is_unalias(list_alias, cmd[1]);
+		list_alias = is_unalias(list_alias, cmd[1]);
 	return (list_alias);
 }
 
@@ -42,18 +42,38 @@ char *replace_alias(list_alias_t *list_alias, char *cmd)
 	return (cmd);
 }
 
-char *is_unalias(list_alias_t *list_alias, char *cmd)
+list_alias_t *check_unalias(list_alias_t *list_alias, list_alias_t *tmp,
+	list_alias_t *previous, char *cmd)
 {
+	while (tmp != NULL) {
+		if (my_strcmp(list_alias->new_cmd, cmd)) {
+			previous->next = tmp->next;
+			free(tmp);
+			return (list_alias);
+		}
+		previous = tmp;
+		tmp = tmp->next;
+	}
+	return (list_alias);
+}
+
+list_alias_t *is_unalias(list_alias_t *list_alias, char *cmd)
+{
+	list_alias_t *tmp;
+	list_alias_t *previous;
+
 	if (is_empty_list(list_alias)) {
 		printf("unalias: no such hash table element: %s\n", cmd);
 		return (NULL);
 	}
-	while (list_alias != NULL) {
-		if (my_strcmp(list_alias->cmd, cmd)) {
-			free(list_alias->cmd);
-			free(list_alias->new_cmd);
-		}
-		list_alias = list_alias->next;
+	previous = list_alias;
+	if (my_strcmp(list_alias->new_cmd, cmd)) {
+		list_alias = previous->next;
+		free(previous);
+		return (list_alias);
 	}
-	return (NULL);
+	tmp = previous->next;
+	list_alias = check_unalias(list_alias, tmp, previous, cmd);
+	printf("unalias: no such hash table element: %s\n", cmd);
+	return (list_alias);
 }
