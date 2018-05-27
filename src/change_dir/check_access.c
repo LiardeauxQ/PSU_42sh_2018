@@ -34,10 +34,14 @@ int check_if_is_cmd(char *env[], char *cmd_name)
 {
 	char **split_path = NULL;
 	int status = 0;
+	char *path = find_env_var_value(env, "PATH");
 
-	if (env == NULL || cmd_name == NULL)
+	if (cmd_name == NULL || env == NULL)
 		return (0);
-	split_path = split_path_var(find_env_var_value(env, "PATH"), ":");
+	if (path == NULL)
+		path = my_strdup("/bin:");
+	if (path != NULL)
+		split_path = split_path_var(path, ":");
 	if (split_path == NULL)
 		return (manage_cmd_not_found(cmd_name));
 	status = check_access(split_path, cmd_name);

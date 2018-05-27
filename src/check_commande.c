@@ -74,8 +74,12 @@ static int execute_command(char **argv, char ***env)
 		return (-1);
 	}
 	if (check_if_is_cmd(*env, argv[0]) == 1) {
-		child_pid = manage_executable(*env, argv);
-		waitpid(child_pid, &wstatus, WCONTINUED);
+		if ((child_pid = fork()) == -1)
+			my_puterror("Error with fork()\n");
+		else if (child_pid == 0)
+			manage_executable(*env, argv);
+		else
+			waitpid(child_pid, &wstatus, WCONTINUED);
 		status = check_exe_signal(wstatus);
 	} else
 		status = 1;

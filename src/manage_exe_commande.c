@@ -42,8 +42,7 @@ int exe_cmd(char *split_path, char **arg, char *env[], int *alrd_path)
 {
 	int status = 0;
 
-	if (split_path == NULL || arg == NULL || env == NULL
-		|| alrd_path == NULL)
+	if (split_path == NULL || arg == NULL || alrd_path == NULL)
 		return (-1);
 	split_path = add_cmd_to_path(arg[0], split_path, alrd_path);
 	if (split_path == NULL)
@@ -55,18 +54,15 @@ int exe_cmd(char *split_path, char **arg, char *env[], int *alrd_path)
 int manage_executable(char *env[], char **arg)
 {
 	char **split_pth = split_path_var(find_env_var_value(env, "PATH"), ":");
-	int child_pid = -1;
+	char *tmp_str = NULL;
 	int alrd_path = 0;
 	int status = 0;
 
-	if (split_pth == NULL)
-		return (child_pid);
-	if ((child_pid = fork()) == -1) {
-		my_puterror("Error with fork()\n");
-		exit(84);
-	} else if (child_pid != 0) {
-		destroy_2darray(split_pth);
-		return (child_pid);
+	if (split_pth == NULL) {
+		tmp_str = my_strdup("/bin/");
+		status = exe_cmd(tmp_str, arg, env, &alrd_path);
+		free(tmp_str);
+		return (0);
 	}
 	for (int i = 0 ; split_pth[i] != NULL ; i++) {
 		status = exe_cmd(split_pth[i], arg, env, &alrd_path);
@@ -74,5 +70,5 @@ int manage_executable(char *env[], char **arg)
 			break;
 	}
 	destroy_2darray(split_pth);
-	return (child_pid);
+	return (0);
 }
