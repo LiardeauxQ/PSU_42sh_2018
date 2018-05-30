@@ -102,11 +102,7 @@ int check_one_command(cmd_t *cmd, shell_t *shell)
 
 	if (cmd->cmd == NULL || cmd->argv == NULL || shell->env == NULL)
 		return (-1);
-//	for (int i = 0 ; cmd->arg[i] != NULL ; i++)
-		///printf("arg %s\n", arg[i]);
 	cmd->argv = trigger_star(cmd->argv);
-	for (int i = 0 ; cmd->argv[i] != NULL ; i++)
-		printf("%s\n", cmd->argv[i]);
 	cmd->argv[0] = replace_alias(shell->alias, cmd->argv[0]);
 	if (size == 0)
 		return (0);
