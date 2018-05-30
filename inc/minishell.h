@@ -43,6 +43,6 @@ int check_one_command(cmd_t *cmd, shell_t *shell);
 void stock_history(int fd, char *buf);
 int manage_history_command(char **argv);
 void display_history_count(int number);
-char	**trigger_star(char **tab);
+char **trigger_star(char **array);
 
 #endif /* MINISHELL_H_ */
