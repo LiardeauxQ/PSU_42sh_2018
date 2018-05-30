@@ -75,13 +75,12 @@ int choose_echo_option(echo_cmd_t *sp_cmd, int *i)
 int execute_echo_command(cmd_t *cmd)
 {
 	echo_cmd_t *split_cmd = manage_quote_cmd(cmd->cmd);
-	int quite = 0;
+	int quit = 0;
 	int i = 1;
 	int interpretation = choose_echo_option(split_cmd, &i);
 	int size = 0;
 
-	if (split_cmd == NULL)
-		quite = 1;
+	quit = (split_cmd == NULL) ? 1 : 0;
 	for (int j = 0 ; split_cmd[j].str != NULL ; j++)
 		size = size + 1;
 	while (i < size) {
@@ -89,10 +88,11 @@ int execute_echo_command(cmd_t *cmd)
 			print_echo_str(split_cmd[i].str);
 		else
 			my_putstr(split_cmd[i].str);
-		if (my_strlen(split_cmd[i].str) == 0)
+		if (my_strlen(split_cmd[i].str) == 0
+		|| (split_cmd[i].quote == 0 && split_cmd[i + 1].quote == 0))
 			my_putchar(' ');
 		i = i + 1;
 	}
 	my_putchar('\n');
-	return (quite);
+	return (quit);
 }
