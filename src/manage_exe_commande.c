@@ -57,7 +57,7 @@ int manage_executable(char *env[], char **arg)
 	char *tmp_str = NULL;
 	int alrd_path = 0;
 	int status = 0;
-
+	
 	if (split_pth == NULL) {
 		tmp_str = my_strdup("/bin/");
 		status = exe_cmd(tmp_str, arg, env, &alrd_path);

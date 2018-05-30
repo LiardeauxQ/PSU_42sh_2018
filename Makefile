@@ -39,6 +39,8 @@ SRC	=	src/manage_env/set_env_commande.c	\
 		src/aliase/init_list_alias.c	\
 		src/aliase/manage_aliase.c	\
 		src/aliase/utils_aliase.c	\
+		src/globbings/match_globbings.c	\
+		src/globbings/split_globbing_cmd.c	\
 		src/globbings/star.c	\
 		src/manage_exe_commande.c	\
 		src/manage_error.c	\

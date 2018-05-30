@@ -49,7 +49,7 @@ int count_id(int fd)
 	char *buf = NULL;
 	int j = 0;
 	int i = 0;
-	struct stat stats;
+	struct stat stats = {0};
 
 	stat(".42sh_history", &stats);
 	buf = malloc((stats.st_size + 1) * sizeof(char));

@@ -36,4 +36,14 @@ void display_cmd(cmd_t *cmd);
 
 void destroy_cmd(cmd_t *cmd);
 
+/* split_globbing_cmd.c */
+
+int find_path_pos(char *str);
+char *get_star(char *str);
+char *find_path(char *str);
+
+/* match_globbings.c */
+
+int match(char *str, char *s);
+
 #endif /* PARSE_CMD_STRING_H_ */
