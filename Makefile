@@ -36,9 +36,9 @@ SRC	=	src/manage_env/set_env_commande.c	\
 		src/catch_cmd_string/tab_completion.c	\
 		src/catch_cmd_string/tab_key_management.c	\
 		src/catch_cmd_string/movement_history.c	\
-		src/aliase/init_list_alias.c	\
-		src/aliase/manage_aliase.c	\
-		src/aliase/utils_aliase.c	\
+		src/alias/init_list_alias.c	\
+		src/alias/manage_alias.c	\
+		src/alias/utils_alias.c	\
 		src/globbings/match_globbings.c	\
 		src/globbings/split_globbing_cmd.c	\
 		src/globbings/star.c	\

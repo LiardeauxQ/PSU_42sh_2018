@@ -1,0 +1,6 @@
+tmp
+test
+*.o
+*.a
+*.so
+
