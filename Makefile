@@ -81,14 +81,14 @@ $(NAME):	$(OBJ)
 	@$(CC) -o $@ -c $< $(LDFLAGS) $(CFLAGS)
 
 clean:
-	@make clean -C lib/my
-	@make clean -C lib/linked_list
+	@make clean --no-print-directory -C lib/my
+	@make clean --no-print-directory -C lib/linked_list
 	@rm -f $(OBJ)
 	@echo -e '${RED}Clean${NC} : OK'
 
 fclean: clean
-	@make fclean -C lib/my
-	@make fclean -C lib/linked_list
+	@make fclean --no-print-directory -C lib/my
+	@make fclean --no-print-directory -C lib/linked_list
 	@rm -f $(NAME)
 	@echo -e '${RED}Fclean${NC}: ./$(NAME) removed'
 
